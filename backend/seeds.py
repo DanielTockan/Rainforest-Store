@@ -1,22 +1,36 @@
 from app import app, db
 from models.product import ProductModel
 from models.order import OrderModel
+import requests
 
 with app.app_context():
 
-  db.drop_all()
-  db.create_all()
+  # db.drop_all()
+  # db.create_all()
 
-  product_1 = ProductModel(
-    product_name="Memory Card",
-    product_id=1
-  )
+  resp = requests.get('https://api.rainforestapi.com/request?api_key=demo&type=reviews&amazon_domain=amazon.com&asin=B073JYC4XM&review_stars=all_critical')
 
-  product_1.save()
+  request_dictionary = resp.json()
+  print(request_dictionary['product']['sub_title']['text'])
+  print(request_dictionary['summary']['rating'])
 
-  order_1 = OrderModel(
-    total_amount="100",
-    #order_status_id=1
-  )
+  
 
-  order_1.save()
+  # product_1 = ProductModel(
+  #   name = request_dictionary['subtitle']
+  # )
+
+
+  # product_1 = ProductModel(
+  #   product_name="Memory Card",
+  # )
+
+  # product_1.save()
+
+  # order_1 = OrderModel(
+  #   total_amount="100",
+  #   order_status='Confirmed',
+  #   products="Memory Card"
+  # )
+  
+  # order_1.save()
