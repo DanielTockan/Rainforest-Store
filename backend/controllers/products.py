@@ -7,6 +7,5 @@ router = Blueprint(__name__, 'products')
 
 @router.route('/products', methods=['GET'])
 def get_products():
-  print('Hello, World')
   return 'Yo bro', 201
   

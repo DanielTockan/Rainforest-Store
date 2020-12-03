@@ -15,14 +15,4 @@ ma = Marshmallow(app)
 bcrypt = Bcrypt(app)
 
 from controllers import products
-
 app.register_blueprint(products.router, url_prefix="/api")
-
-# ! Hello world flask app to start you off.
-# @app.route('/')
-# def index():
-#     return "Hello, World!"
-
-# @app.route('/api')
-# def index():
-#   return 'Yo bro'
