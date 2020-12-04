@@ -9,3 +9,5 @@ class OrderSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   class Meta:
     model = OrderModel
     load_instance = True
+
+  #products = fields.Nested('ProdcutSchema', many=True)

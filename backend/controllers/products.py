@@ -17,5 +17,5 @@ def get_products():
 @router.route('/orders/<int:id>', methods=['GET'])
 def order_status(id):
   order = OrderModel.query.get(id)
-  return order_schema.jsonify(order)
+  return order_schema.jsonify(order), 200
   
