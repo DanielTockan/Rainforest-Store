@@ -16,7 +16,6 @@ class CustomerModel(db.Model, BaseModel):
   username = db.Column(db.String(200), nullable=False)
   email = db.Column(db.String(200), nullable=False, unique=True)
   password_hash = db.Column(db.String(200), nullable=False)
-
   products = db.relationship('ProductModel', secondary=customers_products_join, backref='customers')
 
   @hybrid_property

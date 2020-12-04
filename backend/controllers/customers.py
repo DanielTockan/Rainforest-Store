@@ -11,7 +11,10 @@ router = Blueprint(__name__, 'customers')
 product_schema = ProductSchema()
 order_schema = OrderSchema()
 customer_schema = CustomerSchema()
+<<<<<<< HEAD
 
+=======
+>>>>>>> de793f2ba152bbd000869853ed5dc25ec74bc222
   
 @router.route('/customers', methods=['GET'])
 def get_customers():
@@ -25,6 +28,7 @@ def get_single_customer(id):
   if not single_customer:
     return { 'message': 'This customer is not available' }, 404
 
+<<<<<<< HEAD
   return customer_schema.jsonify(single_customer), 200
 
 
@@ -81,3 +85,6 @@ def login():
 
 #   return order_schema.jsonify(single_order), 200
 
+=======
+  return customer_schema.jsonify(single_customer), 200
+>>>>>>> de793f2ba152bbd000869853ed5dc25ec74bc222
