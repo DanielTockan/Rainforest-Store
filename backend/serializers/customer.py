@@ -8,7 +8,7 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   class Meta:
     model = CustomerModel
     load_instance = True
-    exclude = ('password_hash')
+    exclude = ('password_hash',)
     load_only = ('email', 'password')
 
   # ! Why is this needed?
