@@ -25,35 +25,18 @@ def get_single_product(id):
     return { 'message': 'This product is not available' }, 404
 
   return product_schema.jsonify(single_product), 200
+
+@router.route('/products/<int:id>', methods=['PUT'])
+def add_to_cart(id):
+  product = ProductModel.query.get(id)
+
+  try:
+    item = order_schema.load(product)
+
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+
+  item.save()
+
+  return order_schema.jsonify(item), 200
   
-
-
-# @router.route('/orders', methods=['GET'])
-# def get_orders():
-#   orders = OrderModel.query.all()
-#   return order_schema.jsonify(orders, many=True), 200
-
-# @router.route('/orders/<int:id>', methods=['GET'])
-# def get_single_order(id):
-#   single_order = OrderModel.query.get(id)
-
-#   if not single_order:
-#     return { 'message': 'This order is not available' }, 404
-
-#   return order_schema.jsonify(single_order), 200
-
-
-  
-# @router.route('/customers', methods=['GET'])
-# def get_customers():
-#   customers = CustomerModel.query.all()
-#   return customer_schema.jsonify(customers, many=True), 200
-
-# @router.route('/customers/<int:id>', methods=['GET'])
-# def get_single_customer(id):
-#   single_customer = CustomerModel.query.get(id)
-
-#   if not single_customer:
-#     return { 'message': 'This customer is not available' }, 404
-
-#   return customer_schema.jsonify(single_customer), 200

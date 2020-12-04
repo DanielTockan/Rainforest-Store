@@ -11,38 +11,6 @@ router = Blueprint(__name__, 'customers')
 product_schema = ProductSchema()
 order_schema = OrderSchema()
 customer_schema = CustomerSchema()
-
-# @router.route('/products', methods=['GET'])
-# def get_products():
-#   products = ProductModel.query.all()
-#   return product_schema.jsonify(products, many=True), 200
-
-# @router.route('/products/<int:id>', methods=['GET'])
-# def get_single_product(id):
-#   single_product = ProductModel.query.get(id)
-
-#   if not single_product:
-#     return { 'message': 'This product is not available' }, 404
-
-#   return product_schema.jsonify(single_product), 200
-  
-
-
-# @router.route('/orders', methods=['GET'])
-# def get_orders():
-#   orders = OrderModel.query.all()
-#   return order_schema.jsonify(orders, many=True), 200
-
-# @router.route('/orders/<int:id>', methods=['GET'])
-# def get_single_order(id):
-#   single_order = OrderModel.query.get(id)
-
-#   if not single_order:
-#     return { 'message': 'This order is not available' }, 404
-
-#   return order_schema.jsonify(single_order), 200
-
-
   
 @router.route('/customers', methods=['GET'])
 def get_customers():
