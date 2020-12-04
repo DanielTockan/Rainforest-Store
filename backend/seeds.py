@@ -1,14 +1,15 @@
 from app import app, db
 from models.product import ProductModel
 from models.order import OrderModel
+from models.customer import CustomerModel
 import requests
 from environment.config import API_KEY
 
 with app.app_context():
 
-  # db.drop_all()
+  db.drop_all()
   # db.engine.execute('DROP TABLE orders;')
-  # db.engine.execute('DROP TABLE orders_status')
+  # db.engine.execute('DROP TABLE customers')
   db.create_all()
 
   def get_product(name, url):
@@ -35,7 +36,7 @@ with app.app_context():
       product.save()
 
   bestsellers_list = [
-    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341")
+    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Amazon Launchpad", "https://www.amazon.co.uk/Best-Sellers-Amazon-Launchpad/zgbs/boost/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Apps & Games", "https://www.amazon.co.uk/Best-Sellers-Appstore-Android/zgbs/mobile-apps/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Audible Audiobooks & Originals", "https://www.amazon.co.uk/Best-Sellers-Audible-Audiobooks/zgbs/audible/ref=zg_bs_nav_0/261-3310178-9376341"),
@@ -73,4 +74,21 @@ with app.app_context():
     ("Watches", "https://www.amazon.co.uk/Best-Sellers-Watches/zgbs/watch/ref=zg_bs_nav_0/261-3310178-9376341")
   ]
 
-  # [get_product(name, url) for name, url in bestsellers_list]
+  [get_product(name, url) for name, url in bestsellers_list]
+
+  daniel = CustomerModel(
+    username="Daniel",
+    email="daniel@daniel.com",
+    password_hash="daniel",
+    products=[product_1]
+  )
+  daniel.save()
+
+  order_1 = OrderModel(
+    total_amount=100,
+    order_status='Confirmed',
+    products=[product_1],
+    customer=daniel
+  )
+  
+  order_1.save()
