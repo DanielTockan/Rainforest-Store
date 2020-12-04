@@ -88,7 +88,7 @@ with app.app_context():
   daniel = CustomerModel(
     username="Daniel",
     email="daniel@daniel.com",
-    password_hash="daniel",
+    password="daniel",
     products=[product_1]
   )
   daniel.save()
