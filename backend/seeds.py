@@ -5,8 +5,8 @@ import requests
 
 with app.app_context():
 
-  # db.drop_all()
-  # db.create_all()
+  db.drop_all()
+  db.create_all()
 
   resp = requests.get('https://api.rainforestapi.com/request?api_key=demo&type=reviews&amazon_domain=amazon.com&asin=B073JYC4XM&review_stars=all_critical')
 
@@ -16,21 +16,21 @@ with app.app_context():
 
   
 
-  # product_1 = ProductModel(
-  #   name = request_dictionary['subtitle']
-  # )
+  product_1 = ProductModel(
+    name = request_dictionary['product']['sub_title']['text']
+  )
 
 
   # product_1 = ProductModel(
-  #   product_name="Memory Card",
+  #   name="Memory Card",
   # )
 
-  # product_1.save()
+  product_1.save()
 
-  # order_1 = OrderModel(
-  #   total_amount="100",
-  #   order_status='Confirmed',
-  #   products="Memory Card"
-  # )
+  order_1 = OrderModel(
+    total_amount=100,
+    order_status='Confirmed',
+    products=[product_1]
+  )
   
-  # order_1.save()
+  order_1.save()
