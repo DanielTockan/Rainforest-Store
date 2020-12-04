@@ -1,6 +1,7 @@
 from app import app, db
 from models.product import ProductModel
 from models.order import OrderModel
+from models.customer import CustomerModel
 import requests
 
 with app.app_context():
@@ -27,10 +28,19 @@ with app.app_context():
 
   product_1.save()
 
+  daniel = CustomerModel(
+    username="Daniel",
+    email="daniel@daniel.com",
+    password_hash="daniel",
+    products=[product_1]
+  )
+  daniel.save()
+
   order_1 = OrderModel(
     total_amount=100,
     order_status='Confirmed',
-    products=[product_1]
+    products=[product_1],
+    customer=daniel
   )
   
   order_1.save()
