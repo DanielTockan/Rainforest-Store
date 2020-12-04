@@ -6,7 +6,9 @@ from environment.config import API_KEY
 
 with app.app_context():
 
-  db.drop_all()
+  # db.drop_all()
+  # db.engine.execute('DROP TABLE orders;')
+  # db.engine.execute('DROP TABLE orders_status')
   db.create_all()
 
   def get_product(name, url):
@@ -21,8 +23,10 @@ with app.app_context():
         product = ProductModel(
           title = products_list[item]['title'],
           rating = products_list[item]['rating'],
-          price = products_list[item]["price"]["value"],
           category = products_list[item]['current_category']['name'],
+          price = products_list[item]["price"]["value"],
+          currency = products_list[item]['price']['currency'],
+          symbol = products_list[item]['price']['symbol'],
           image = products_list[item]['image']
         )
       except: 
@@ -31,7 +35,7 @@ with app.app_context():
       product.save()
 
   bestsellers_list = [
-    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341"),
+    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341")
     ("Amazon Launchpad", "https://www.amazon.co.uk/Best-Sellers-Amazon-Launchpad/zgbs/boost/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Apps & Games", "https://www.amazon.co.uk/Best-Sellers-Appstore-Android/zgbs/mobile-apps/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Audible Audiobooks & Originals", "https://www.amazon.co.uk/Best-Sellers-Audible-Audiobooks/zgbs/audible/ref=zg_bs_nav_0/261-3310178-9376341"),
@@ -69,22 +73,4 @@ with app.app_context():
     ("Watches", "https://www.amazon.co.uk/Best-Sellers-Watches/zgbs/watch/ref=zg_bs_nav_0/261-3310178-9376341")
   ]
 
-  [get_product(name, url) for name, url in bestsellers_list]
-  # product_1 = ProductModel(
-  #   name = request_dictionary['subtitle']
-  # )
-
-
-  # product_1 = ProductModel(
-  #   product_name="Memory Card",
-  # )
-
-  # product_1.save()
-
-  # order_1 = OrderModel(
-  #   total_amount="100",
-  #   order_status='Confirmed',
-  #   products="Memory Card"
-  # )
-  
-  # order_1.save()
+  # [get_product(name, url) for name, url in bestsellers_list]
