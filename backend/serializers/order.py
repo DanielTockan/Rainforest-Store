@@ -12,3 +12,5 @@ class OrderSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     
   products = fields.Nested('ProductSchema', many=True)
   # customer_id = fields.Nested('CustomerSchema', many=True)
+
+  

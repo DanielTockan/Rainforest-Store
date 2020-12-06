@@ -72,7 +72,7 @@ with app.app_context():
     # ("Watches", "https://www.amazon.co.uk/Best-Sellers-Watches/zgbs/watch/ref=zg_bs_nav_0/261-3310178-9376341")
   ]
 
-  [get_product(name, url) for name, url in bestsellers_list]
+  # [get_product(name, url) for name, url in bestsellers_list]
 
   product_1 = ProductModel(
     title = 'test',
@@ -97,7 +97,17 @@ with app.app_context():
     total_amount=100,
     order_status='Confirmed',
     products=[product_1],
-    customer=daniel
+    customer=daniel,
+    current_order=False
+  )
+
+  order_2 = OrderModel(
+    total_amount=200,
+    order_status='In Progress',
+    products=[product_1],
+    customer=daniel,
+    current_order=True
   )
 
   order_1.save()
+  order_2.save()

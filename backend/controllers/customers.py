@@ -1,4 +1,4 @@
-from flask import Blueprint, requestgc
+from flask import Blueprint, request
 from models.product import ProductModel
 from models.order import OrderModel
 from models.customer import CustomerModel
