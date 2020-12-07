@@ -9,4 +9,6 @@ class PopulatedProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     model = ProductModel
     load_instance = True
 
-  reviews = fields.Nested('ReviewSchema', only=('id', 'content'), many=True)
+  reviews = fields.Nested('ReviewSchema', many=True)
+
+  # only=('id', 'content', 'customers'), 
