@@ -43,23 +43,23 @@ def get_single_order(id):
 
   return order_schema.jsonify(single_order), 200
 
-@router.route('orders/<int:id>', methods=['PUT'])
-def add_single_item(id):
-  get_order = OrderModel.query.get(id)
+# @router.route('orders/<int:id>', methods=['PUT'])
+# def add_single_item(id):
+#   get_order = OrderModel.query.get(id)
 
-  try:
-    item = order_schema.load(
-      request.get_json(),
-      instance=get_order,
-      partial=True
-    )
+#   try:
+#     item = order_schema.load(
+#       request.get_json(),
+#       instance=get_order,
+#       partial=True
+#     )
 
-  except ValidationError as e:
-    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+#   except ValidationError as e:
+#     return { 'errors': e.messages, 'message': 'Something went wrong.' }
 
-  item.save()
+#   item.save()
 
-  return order_schema.jsonify(item)
+#   return order_schema.jsonify(item)
 
 @router.route('orders/current-order', methods=['GET'])
 def current_order():
