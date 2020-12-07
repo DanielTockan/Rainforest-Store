@@ -31,28 +31,90 @@ def get_single_product(id):
 
   return product_schema.jsonify(single_product), 200
 
+@router.route('/products/<int:id>/new-order', methods=['PUT'])
+def new_order(id):
+  single_product = ProductModel.query.get(id)
+  single_product_data = product_schema.dump(single_product)
+  print(single_product_data)
+
+  try: 
+    new_item = populated_order_schema.load(single_product_data)
+
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+
+  return populated_order_schema.jsonify(new_item)
+
+
 @router.route('/products/<int:id>/add-to-cart', methods=['PUT'])
 def add_to_cart(id):
   single_product = ProductModel.query.get(id)
+  single_product_data = product_schema.dump(single_product)
   current_order = OrderModel.query.filter_by(current_order=True).first()
 
-
-  query = db.execute("""SELECT * FROM orders """)
-  print(query)
-
-
   try:
-    item = order_schema.load(
-      request.get_json(),
+    item = populated_order_schema.load(
+      {"products": [single_product_data]},
       instance=current_order,
       partial=True
     )
-    print(item.products)
 
   except ValidationError as e:
     return { 'errors': e.messages, 'message': 'Something went wrong.' }
 
   item.save()
 
+  current_order = OrderModel.query.filter_by(current_order=True).first()
+  current_order_data = order_schema.dump(current_order)
+
+  try:
+    calculate_amount = 0
+    for i in range(len(current_order_data['products'])):
+      calculate_amount = current_order_data['products'][i]['price'] + calculate_amount
+
+    total_amount = populated_order_schema.load(
+      {"total_amount": calculate_amount},
+      instance=current_order,
+      partial=True
+    )
+    total_amount.save()
+  
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+  
   return populated_order_schema.jsonify(item), 200
+
+@router.route('/products/<int:id>/delete-from-cart', methods=['DELETE'])
+def delete_from_cart(id):
+  single_product = ProductModel.query.get(id)
+  single_product_data = product_schema.dump(single_product)
+  current_order = OrderModel.query.filter_by(current_order=True).first()
+  current_order_data = order_schema.dump(current_order)
+ 
+  try:
+    single_product.remove()
+
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+
+  current_order = OrderModel.query.filter_by(current_order=True).first()
+  current_order_data = order_schema.dump(current_order)
+
+  try:
+    calculate_amount = 0
+    for i in range(len(current_order_data['products'])):
+      calculate_amount = current_order_data['products'][i]['price'] + calculate_amount
+
+    total_amount = order_schema.load(
+      {"total_amount": calculate_amount},
+      instance=current_order,
+      partial=True,
+      many=True
+    )
+    total_amount.save()
+  
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+  
+  return order_schema.jsonify(total_amount), 200
   

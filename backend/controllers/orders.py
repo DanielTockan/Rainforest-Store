@@ -66,12 +66,13 @@ def current_order():
   this_order = OrderModel.query.filter_by(current_order=True).first()
   return order_schema.jsonify(this_order)
 
-@router.route('orders/finalize-order', methods=['POST'])
+@router.route('orders/finalize-order', methods=['PUT'])
 def set_order_status():
   this_order = OrderModel.query.filter_by(current_order=True).first()
 
   complete_order = order_schema.load(
-    request.get_json(),
+    {"current_order": False,
+    "order_status": "Completed"},
     instance=this_order,
     partial=True
   )
