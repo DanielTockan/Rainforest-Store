@@ -9,8 +9,5 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     model = CustomerModel
     load_instance = True
     exclude = ('password_hash',)
-    load_only = ('email', 'password')
-
-  # ! Why is this needed?
-  password = fields.String(required=True)
+    load_only = ('password')
   
