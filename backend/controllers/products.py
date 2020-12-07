@@ -8,6 +8,7 @@ from serializers.order import OrderSchema
 from serializers.customer import CustomerSchema
 from serializers.populated_order import PopulateOrderSchema
 from marshmallow import ValidationError
+from middleware.secure_route import secure_route
 import requests
 
 
@@ -47,14 +48,19 @@ def new_order(id):
 
 
 @router.route('/products/<int:id>/add-to-cart', methods=['PUT'])
+# @secure_route
 def add_to_cart(id):
   single_product = ProductModel.query.get(id)
   single_product_data = product_schema.dump(single_product)
   current_order = OrderModel.query.filter_by(current_order=True).first()
+  current_order_data = populated_order_schema.dump(current_order)
+
+  # current_user = CustomerModel.query.filter_by(id == g.current_user.id)
+  # current_user_data = customer_schema.dump(current_user)
 
   try:
     item = populated_order_schema.load(
-      {"products": [single_product_data]},
+      {"products": [*current_order_data['products'], single_product_data]},
       instance=current_order,
       partial=True
     )
@@ -90,12 +96,15 @@ def delete_from_cart(id):
   single_product_data = product_schema.dump(single_product)
   current_order = OrderModel.query.filter_by(current_order=True).first()
   current_order_data = order_schema.dump(current_order)
- 
-  try:
-    single_product.remove()
 
-  except ValidationError as e:
-    return { 'errors': e.messages, 'message': 'Something went wrong.' }
+  delete_item = list(filter(lambda x: x['id'] != id, current_order_data['products']))
+
+  item = populated_order_schema.load(
+    {"products": [*delete_item]},
+    instance=current_order,
+    partial=True
+  )
+  item.save()
 
   current_order = OrderModel.query.filter_by(current_order=True).first()
   current_order_data = order_schema.dump(current_order)
@@ -105,16 +114,15 @@ def delete_from_cart(id):
     for i in range(len(current_order_data['products'])):
       calculate_amount = current_order_data['products'][i]['price'] + calculate_amount
 
-    total_amount = order_schema.load(
+    total_amount = populated_order_schema.load(
       {"total_amount": calculate_amount},
       instance=current_order,
-      partial=True,
-      many=True
+      partial=True
     )
     total_amount.save()
   
   except ValidationError as e:
     return { 'errors': e.messages, 'message': 'Something went wrong.' }
-  
-  return order_schema.jsonify(total_amount), 200
+
+  return populated_order_schema.jsonify(item), 200
   

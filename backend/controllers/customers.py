@@ -13,7 +13,6 @@ customer_schema = CustomerSchema()
 populated_customer = PopulatedCustomerSchema()
 
 @router.route('/customers', methods=['GET'])
-@secure_route
 def get_customers():
   customers = CustomerModel.query.all()
   # return test, 200
@@ -27,7 +26,6 @@ def get_single_customer(id):
     return { 'message': 'This customer is not available' }, 404
 
   return populated_customer.jsonify(single_customer), 200
-
 
 @router.route('/customers/<int:id>', methods=['PUT'])
 def update_customer(id):
@@ -45,8 +43,6 @@ def update_customer(id):
   customer.save()
 
   return customer_schema.jsonify(customer), 201
-
-
 
 @router.route('/register', methods=['POST'])
 def register():
