@@ -11,9 +11,10 @@ customer_schema = CustomerSchema()
 populated_customer = PopulatedCustomerSchema()
 
 @router.route('/customers', methods=['GET'])
-# @secure_route
+@secure_route
 def get_customers():
   customers = CustomerModel.query.all()
+  # return test, 200
   return customer_schema.jsonify(customers, many=True), 200
 
 @router.route('/customers/<int:id>', methods=['GET'])
