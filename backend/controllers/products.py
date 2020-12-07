@@ -54,6 +54,9 @@ def create_review(id):
   review_data = request.get_json()
   review_data['id'] = g.current_user.id
 
+  if not g.current_user.id:
+    return { 'message': 'You must be logged in to leave a comment'}, 404
+
   product = ProductModel.query.get(id)
   review = review_schema.load(review_data)
 

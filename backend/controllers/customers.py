@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from models.customer import CustomerModel
 from serializers.customer import CustomerSchema
 from serializers.populated_customer import PopulatedCustomerSchema
@@ -18,18 +18,26 @@ def get_customers():
   return customer_schema.jsonify(customers, many=True), 200
 
 @router.route('/customers/<int:id>', methods=['GET'])
+@secure_route
 def get_single_customer(id):
   single_customer = CustomerModel.query.get(id)
 
   if not single_customer:
     return { 'message': 'This customer is not available' }, 404
 
+  if single_customer.id != g.current_user.id:
+    return { 'message': 'You cannot inspect a profile that is not yours'}
+
   return populated_customer.jsonify(single_customer), 200
 
 
 @router.route('/customers/<int:id>', methods=['PUT'])
+@secure_route
 def update_customer(id):
   existing_customer = CustomerModel.query.get(id)
+
+  if existing_customer.id != g.current_user.id:
+    return { 'message': 'You cannot update a profile that is not yours'}, 404
 
   try:
     customer = populated_customer.load(
@@ -68,6 +76,6 @@ def login():
 
   return { 'token': token, 'message': 'Welcome back'}
 
-@router.route('/products/<int:id>', methods=['PUT'])
-def add_saved_product():
-  current_product = request.get_json()
+# @router.route('/products/<int:id>', methods=['PUT'])
+# def add_saved_product():
+#   current_product = request.get_json()

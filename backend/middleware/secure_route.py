@@ -2,8 +2,10 @@ from flask import request, g
 import jwt
 from models.customer import CustomerModel
 from environment.config import secret
+from functools import wraps
 
 def secure_route(func):
+  @wraps(func)
   def wrapper(*args, **kwargs):
 
     raw_token = request.headers['Authorization']
