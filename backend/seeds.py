@@ -2,6 +2,7 @@ from app import app, db
 from models.product import ProductModel
 from models.order import OrderModel
 from models.customer import CustomerModel
+from models.review import ReviewModel
 import requests
 from environment.config import API_KEY
 
@@ -93,6 +94,14 @@ with app.app_context():
   )
   daniel.save()
 
+  mitty = CustomerModel(
+    username="mitty",
+    email="mitty@mitty.com",
+    password="mitty",
+    products=[product_1]
+  )
+  mitty.save()
+
   order_1 = OrderModel(
     total_amount=100,
     order_status='Confirmed',
@@ -101,3 +110,24 @@ with app.app_context():
   )
 
   order_1.save()
+
+  review1 = ReviewModel(
+    content='This product is crazyyyyy',
+    customer=daniel,
+    product=product_1
+  )
+  review1.save()
+
+  review2 = ReviewModel(
+    content='This product is brazyyyyy',
+    customer=mitty,
+    product=product_1
+  )
+  review2.save()
+
+  review3 = ReviewModel(
+    content='This product is crazyyyyy 2',
+    customer=daniel,
+    product=product_1
+  )
+  review3.save()
