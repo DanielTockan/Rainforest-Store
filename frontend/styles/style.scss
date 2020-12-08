@@ -4,3 +4,39 @@
   height: 100%;
   align-items: center;
 }
+
+.container-custom {
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-single {
+  height: 100vh;
+  overflow-y: scroll;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.background-image-login {
+  background-image: url('https://i.imgur.com/WYaUDxW.jpg');
+  background-size: cover;
+}
+.background-image-register {
+  background-image: url('https://i.imgur.com/PlqvKd0.jpg');
+  background-size: cover;
+}
+.background-image-my-account {
+  background-image: url('');
+  background-size: cover;
+  height: 100vh;
+}
+
+.wide {
+  width: 230px;
+  background-color: rgb(28, 89, 6);
+  margin-bottom: 130px;
+}
