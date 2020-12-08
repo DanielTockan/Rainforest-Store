@@ -10,11 +10,4 @@ class OrderSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     model = OrderModel
     load_instance = True
     
-<<<<<<< HEAD
   products = fields.Nested('ProductSchema', many=True)
-=======
-  products = fields.Nested('ProductSchema', many=True)
-  # customer_id = fields.Nested('CustomerSchema', many=False)
-
-  
->>>>>>> development
