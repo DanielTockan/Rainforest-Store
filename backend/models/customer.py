@@ -7,8 +7,6 @@ from datetime import *
 import jwt
 from environment.config import secret
 
-
-
 class CustomerModel(db.Model, BaseModel):
 
   __tablename__ = "customers"

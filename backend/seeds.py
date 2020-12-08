@@ -106,7 +106,16 @@ with app.app_context():
     total_amount=100,
     order_status='Confirmed',
     products=[product_1],
-    customer=daniel
+    customer=daniel,
+    current_order=False
+  )
+
+  order_2 = OrderModel(
+    total_amount=200,
+    order_status='In Progress',
+    products=[product_1],
+    customer=daniel,
+    current_order=True
   )
 
   order_1.save()

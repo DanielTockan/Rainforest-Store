@@ -1,9 +1,11 @@
 from flask import Blueprint, request, g
+from models.product import ProductModel
+from models.order import OrderModel
 from models.customer import CustomerModel
 from serializers.customer import CustomerSchema
 from serializers.populated_customer import PopulatedCustomerSchema
 from marshmallow import ValidationError
-from middleware.secure_route import secure_route 
+from middleware.secure_route import secure_route
 
 router = Blueprint(__name__, 'customers')
 
@@ -11,7 +13,6 @@ customer_schema = CustomerSchema()
 populated_customer = PopulatedCustomerSchema()
 
 @router.route('/customers', methods=['GET'])
-@secure_route
 def get_customers():
   customers = CustomerModel.query.all()
   # return test, 200
@@ -29,7 +30,6 @@ def get_single_customer(id):
     return { 'message': 'You cannot inspect a profile that is not yours'}
 
   return populated_customer.jsonify(single_customer), 200
-
 
 @router.route('/customers/<int:id>', methods=['PUT'])
 @secure_route
@@ -51,8 +51,6 @@ def update_customer(id):
   customer.save()
 
   return customer_schema.jsonify(customer), 201
-
-
 
 @router.route('/register', methods=['POST'])
 def register():

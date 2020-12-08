@@ -11,3 +11,4 @@ class PopulateOrderSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 
   products = fields.Nested('ProductSchema', many=True)
+  customer_id = fields.Integer()
