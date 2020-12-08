@@ -11,3 +11,5 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     exclude = ('password_hash',)
     load_only = ('password')
   
+  password =fields.String(required=True)
+

@@ -64,24 +64,32 @@ def get_single_order(id):
 #   return order_schema.jsonify(item)
 
 @router.route('orders/current-order', methods=['GET'])
+@secure_route
 def current_order():
-  this_order = OrderModel.query.filter_by(current_order=True).first()
+  this_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
   return order_schema.jsonify(this_order)
 
 @router.route('orders/finalize-order', methods=['PUT'])
+@secure_route
 def set_order_status():
-  this_order = OrderModel.query.filter_by(current_order=True).first()
+  this_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
 
-  complete_order = order_schema.load(
-    {"current_order": False,
+  try:
+    complete_order = order_schema.load(
+    {"current_order": 'false',
     "order_status": "Completed"},
     instance=this_order,
     partial=True
-  )
+    )
+
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong.' }
 
   complete_order.save()
 
-  return populate_order.jsonify(complete_order), 200
+  return order_schema.jsonify(complete_order), 200
+  
+
 
   
 

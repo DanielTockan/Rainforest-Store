@@ -52,10 +52,12 @@ def new_order(id):
 def add_to_cart(product_id):
   single_product = ProductModel.query.get(product_id)
   single_product_data = product_schema.dump(single_product)
-  current_order = OrderModel.query.filter_by(current_order=True, customer_id=g.current_user.id).first()
-  current_order_data = populated_order_schema.dump(current_order)  
+  current_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
+  current_order_data = populated_order_schema.dump(current_order) 
+  current_customer = CustomerModel.query.filter_by(id=g.current_user.id).first()
+  current_customer_data = customer_schema.dump(current_customer)
 
-  if bool(current_order):
+  if current_order: 
     try:
       item = populated_order_schema.load(
       {"products": [*current_order_data['products'], single_product_data]},
@@ -88,20 +90,16 @@ def add_to_cart(product_id):
     return populated_order_schema.jsonify(total_amount), 200
 
 
-  elif bool(current_order) == False:
-    current_customer = CustomerModel.query.filter_by(id=g.current_user.id).first()
-    current_customer_data = customer_schema.dump(current_customer)
-
+  elif not current_order: 
     create_new_item = populated_order_schema.load({
       "current_order": "true",
       "products": [single_product_data],
-      "customer": [1],
-      # "customer_id": {"username": current_customer_data["username"], "id": g.current_user.id, "email": current_customer_data["email"]},
+      "customer_id": g.current_user.id,
       "order_status": "In progress",
       "total_amount": single_product_data['price']},
-      instance=OrderModel(),
-      partial=False
+      instance=OrderModel()
     )
+
     try:
       create_new_item.save()
 

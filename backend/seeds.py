@@ -93,20 +93,12 @@ with app.app_context():
   )
   daniel.save()
 
-  mitty = CustomerModel(
-    username="mitty",
-    email="mitty@mitty.com",
-    password="mitty",
-    products=[product_1]
-  )
-  daniel.save()
-  mitty.save()
 
   order_1 = OrderModel(
     total_amount=100,
     order_status='Confirmed',
     products=[product_1],
-    customer_id=1,
+    customer=daniel,
     current_order=False
   )
 
@@ -114,7 +106,7 @@ with app.app_context():
     total_amount=200,
     order_status='In Progress',
     products=[product_1],
-    customer=mitty,
+    customer=daniel,
     current_order=True
   )
 
