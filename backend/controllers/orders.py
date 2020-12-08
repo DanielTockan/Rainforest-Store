@@ -65,7 +65,7 @@ def set_order_status():
   #   return { 'message': 'You do not have permission to access this order.'}
 
   try:
-    complete_order = order_schema.load(
+    complete_order = populate_order.load(
     {"current_order": 'false',
     "order_status": "Completed"},
     instance=this_order,
@@ -77,7 +77,7 @@ def set_order_status():
 
   complete_order.save()
 
-  return order_schema.jsonify(complete_order), 200
+  return populate_order.jsonify(complete_order), 200
   
 
 
