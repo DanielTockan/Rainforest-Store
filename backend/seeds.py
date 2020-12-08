@@ -75,22 +75,22 @@ with app.app_context():
 
   [get_product(name, url) for name, url in bestsellers_list]
 
-  product_1 = ProductModel(
-    title = 'test',
-    rating = 4.6,
-    category = 'test',
-    price = 3.99,
-    currency = 'GBP',
-    symbol = '$',
-    image = 'dlkjfal'
-  )
-  product_1.save()
+  # product_1 = ProductModel(
+  #   title = 'test',
+  #   rating = 4.6,
+  #   category = 'test',
+  #   price = 3.99,
+  #   currency = 'GBP',
+  #   symbol = '$',
+  #   image = 'dlkjfal'
+  # )
+  # # product_1.save()
 
   daniel = CustomerModel(
     username="Daniel",
     email="daniel@daniel.com",
     password="daniel",
-    products=[product_1]
+    # products=[product_1]
   )
   daniel.save()
 
@@ -98,14 +98,14 @@ with app.app_context():
     username="mitty",
     email="mitty@mitty.com",
     password="mitty",
-    products=[product_1]
+    # products=[product_1]
   )
-  mitty.save()
+  # mitty.save()
 
   order_1 = OrderModel(
     total_amount=100,
     order_status='Confirmed',
-    products=[product_1],
+    # products=[product_1],
     customer=daniel,
     current_order=False
   )
@@ -113,7 +113,7 @@ with app.app_context():
   order_2 = OrderModel(
     total_amount=200,
     order_status='In Progress',
-    products=[product_1],
+    # products=[product_1],
     customer=daniel,
     current_order=True
   )
@@ -123,20 +123,20 @@ with app.app_context():
   review1 = ReviewModel(
     content='This product is crazyyyyy',
     customer=daniel,
-    product=product_1
+    # product=product_1
   )
   review1.save()
 
   review2 = ReviewModel(
     content='This product is brazyyyyy',
     customer=mitty,
-    product=product_1
+    # product=product_1
   )
   review2.save()
 
   review3 = ReviewModel(
     content='This product is crazyyyyy 2',
     customer=daniel,
-    product=product_1
+    # product=product_1
   )
   review3.save()

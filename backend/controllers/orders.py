@@ -50,24 +50,6 @@ def get_single_order(id):
 
   return order_schema.jsonify(single_order), 200
 
-# @router.route('orders/<int:id>', methods=['PUT'])
-# def add_single_item(id):
-#   get_order = OrderModel.query.get(id)
-
-#   try:
-#     item = order_schema.load(
-#       request.get_json(),
-#       instance=get_order,
-#       partial=True
-#     )
-
-#   except ValidationError as e:
-#     return { 'errors': e.messages, 'message': 'Something went wrong.' }
-
-#   item.save()
-
-#   return order_schema.jsonify(item)
-
 @router.route('orders/current-order', methods=['GET'])
 @secure_route
 def current_order():
@@ -79,8 +61,8 @@ def current_order():
 def set_order_status():
   this_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
 
-  if get_order.customer_id != g.current_user.id:
-    return { 'message': 'You do not have permission to access this order.'}
+  # if get_order.customer_id != g.current_user.id:
+  #   return { 'message': 'You do not have permission to access this order.'}
 
   try:
     complete_order = order_schema.load(

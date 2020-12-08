@@ -73,7 +73,3 @@ def login():
   token = customer.generate_token()
 
   return { 'token': token, 'message': 'Welcome back'}
-
-# @router.route('/products/<int:id>', methods=['PUT'])
-# def add_saved_product():
-#   current_product = request.get_json()
