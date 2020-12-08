@@ -1,23 +1,28 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { getUserId } from '../lib/auth'
 
 const Products = () => {
   const [products, updateProduct] = useState([])
-  const [addToCartButton, updateAddToCartButton] = useState(0)
+  const [cart, updateCart] = useState([])
+
+  const token = localStorage.getItem('token')
+  const userId = getUserId(token)  
 
   useEffect(() => {
     axios.get("/api/products")
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-      // }
       .then(resp => {
         updateProduct(resp.data)
       })
   }, [])
 
   function addToCart(id) {
-    axios.put(`/api/products/${id}/add-to-cart`)
+    axios.put(`/api/products/${id}/add-to-cart`, {}, {
+      headers: { Authorization: `Bearer ${token}`}
+    })
     .then(resp => {
+      updateCart(resp.data)
       console.log(resp.data)
     })
   }
@@ -46,10 +51,10 @@ const Products = () => {
                           <p>{product.rating}</p>
                         </div>
                       </div>
-                      <button value={product.id}
+                      {userId && <button value={product.id}
                        onClick={event => addToCart(event.target.value)}
                        className="button is-primary">Add to Cart
-                       </button>
+                       </button>}
                     </div>
                   </div>
                 </div>

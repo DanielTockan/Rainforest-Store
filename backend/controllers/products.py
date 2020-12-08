@@ -94,7 +94,7 @@ def add_to_cart(product_id):
     except ValidationError as e:
       return { 'errors': e.messages, 'message': 'Something went wrong.' }
   
-    return populated_order_schema.jsonify(total_amount), 200
+    return populated_order_schema.jsonify(item), 200
 
 
   elif not current_order: 

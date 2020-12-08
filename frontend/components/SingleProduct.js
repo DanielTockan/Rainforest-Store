@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
-const SingleProduct = () => {
+const SingleProduct = (props) => {
 
   return <h1>Hello SingleProduct Page</h1>
 }
