@@ -30,49 +30,52 @@ const Login = (props) => {
           setErrors(resp.data)
         } else {
           localStorage.setItem('token', resp.data.token)
-          props.history.push('/myaccount')       
+          props.history.push('/products')
         }
       })
   }
   console.log(props)
-  
 
-  return <div>
-    <form
-      onSubmit={handleSubmit}
-    >
-      <div className="form-group">
-        <input
-          type="email"
-          className="form-control"
-          placeholder="Email"
-          onChange={handleChange}
-          value={formData.email}
-          name="email"
-          required />
-      </div>
 
-      <div className="form-group">
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Password"
-          onChange={handleChange}
-          value={formData.password}
-          name="password"
-          required />
-      </div>
+  return <div className="background-image-login">
 
-      {errors.message && <p id="error" style={{ color: 'black' }}>
-        {errors.message}
-      </p>}
+    <div className="container container-custom">
+      <form
+        onSubmit={handleSubmit}
+      >
+        <div className="form-group">
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Email"
+            onChange={handleChange}
+            value={formData.email}
+            name="email"
+            required />
+        </div>
 
-      <button
-        className="btn btn-dark">
+        <div className="form-group">
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Password"
+            onChange={handleChange}
+            value={formData.password}
+            name="password"
+            required />
+        </div>
+
+        {errors.message && <p id="error" style={{ color: 'black' }}>
+          {errors.message}
+        </p>}
+
+        <button
+          className="btn btn-dark">
           Login
       </button>
 
-    </form>
+      </form>
+    </div>
   </div>
 }
 
