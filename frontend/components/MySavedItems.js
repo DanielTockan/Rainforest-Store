@@ -15,8 +15,7 @@ const MySavedItems = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((resp) => {
-        setFormData(resp.data.producgst
-          ts)
+        setFormData(resp.data.products)
       })
   }, [])
 
