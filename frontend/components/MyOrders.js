@@ -5,24 +5,36 @@ import { getUserId } from '../lib/auth'
 
 const MyOrders = () => {
 
-  const [formData, setFormData] = useState({})
+  const [orderData, setOrderData] = useState([])
 
   const token = localStorage.getItem('token')
   const userId = getUserId(token)
 
   useEffect(() => {
     axios.get(`/api/customers/${userId}`, {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then((resp) => {
-        setFormData(resp.data)
+        setOrderData(resp.data.orders)
       })
   }, [])
 
   console.log(token)
-  console.log(formData)
 
-  return <h1>My Orders Page</h1>
+  console.log(typeof (orderData))
+  console.log(orderData)
+
+  return <div>
+    <div>{
+      orderData.map((orderData, index) => (
+        <div className="here" key={index}>
+          <div>Order ID: {orderData.id}</div>
+          <div>Order Status: {orderData.order_status}</div>
+          <div>Order Amount: {orderData.total_amount}</div>
+        </div>
+      ))
+    }</div>
+  </div>
 }
 
 export default MyOrders
