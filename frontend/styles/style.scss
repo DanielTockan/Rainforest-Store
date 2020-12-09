@@ -3,6 +3,13 @@
 .card {
   height: 100%;
   align-items: center;
+
+  .card-image {
+    padding-top: 20px;
+    height: auto;
+    width: 200px;
+  }
+  
 }
 
 .container-custom {
