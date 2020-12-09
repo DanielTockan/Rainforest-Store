@@ -12,20 +12,22 @@ const SingleAccount = (props) => {
   const userId = getUserId(token)
 
   useEffect(() => {
-    axios.get(`/api/customers/${userId}`)
+    axios.get(`/api/customers/${userId}`, {
+      headers: { Authorization: `Bearer ${token}`}
+    })
       .then((resp) => {
         setFormData(resp.data)
- 
       })
   }, [])
 
+  console.log(token)
   console.log(formData)
-  console.log(props)
 
 
   return <div className="section background-image-my-account">
     <h1 className="text-warning title-text">Welcome back {formData.username}</h1>
     <div className="row">
+      
       <div className="col-sm-6">
         <div className="card card-height">
           <div className="card-body">
