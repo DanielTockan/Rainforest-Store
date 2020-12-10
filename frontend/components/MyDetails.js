@@ -78,30 +78,6 @@ const MyDetails = (props) => {
   console.log(formData)
   console.log(token)
 
-  // function handleImageUpload(event) {
-  //   event.preventDefault()
-
-  //   const token = localStorage.getItem('token')
-
-  //   window.cloudinary.createUploadWidget(
-  //     {
-  //       cloudName: 'dzt94',
-  //       uploadPreset: 'skiresortapp',
-  //       cropping: true
-  //     },
-  //     (err, result) => {
-  //       if (result.event !== 'success') {
-  //         return
-  //       }
-  //       axios.put(`/api/users/${props.match.params.id}`, { image: result.info.secure_url }, {
-  //         headers: { Authorization: `Bearer ${token}` }
-  //       })
-  //         .then((res) => updateFormData(res.data))
-  //     }
-  //   ).open()
-  // }
-
-  // console.log(formData)
 
   return <div className="container container-custom">
 
@@ -114,7 +90,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.username}
           name="username"
-          required
+
         />
 
       </div>
@@ -127,7 +103,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.email}
           name="email"
-          required
+
         />
 
       </div>
@@ -140,7 +116,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.password}
           name="password"
-          required
+
         />
 
       </div>

@@ -30,21 +30,21 @@ const MyOrders = () => {
         <div>{
           orderData.map((orderData, index) => (
             <div className="tracker" key={index}>
-              <div className="list-row" >
+              <Link to={`/products/${orderData.id}`}><div className="list-row" >
                 <div className="order">
                   <div className="order-details">
                     <div className="volume-3 list-text" >Order ID: {orderData.id}</div>
-                    <div className="volume-3 list-text" >Order Status: {orderData.order_status}</div>
+                    <div className="volume-3 list-text" >Status: {orderData.order_status}</div>
                     <div className="list-price list-text">£ {orderData.total_amount}</div>
                   </div>
                 </div>
-              </div>
+              </div></Link>
             </div>
           ))
         }</div>
       </div>
     </section>
-  </div>
+  </div >
 }
 
 export default MyOrders
