@@ -35,7 +35,7 @@ with app.app_context():
       product.save()
 
   bestsellers_list = [
-    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341")
+    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Amazon Launchpad", "https://www.amazon.co.uk/Best-Sellers-Amazon-Launchpad/zgbs/boost/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Apps & Games", "https://www.amazon.co.uk/Best-Sellers-Appstore-Android/zgbs/mobile-apps/ref=zg_bs_nav_0/261-3310178-9376341"),
     ("Audible Audiobooks & Originals", "https://www.amazon.co.uk/Best-Sellers-Audible-Audiobooks/zgbs/audible/ref=zg_bs_nav_0/261-3310178-9376341"),
