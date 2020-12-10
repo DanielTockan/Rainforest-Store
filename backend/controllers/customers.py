@@ -65,7 +65,7 @@ def login():
   customer = CustomerModel.query.filter_by(email=customer_data['email']).first()
 
   if not customer:
-    return { 'message': 'No user found with this email' }, 200
+    return { 'message': 'No user found with this email' }, 404
 
   if not customer.validate_password(customer_data['password']):
     return { 'message': 'Unauthorised' }, 402
