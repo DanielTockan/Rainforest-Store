@@ -33,11 +33,28 @@
 
 #single-product {
   margin-top: 60px;
+  
 
   #product-information {
     display: flex;
     // justify-content: center;
     // align-items: center;
+    
+
+    .centered {
+      display:flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 400px;
+      height: auto;
+    }
+
+    button {
+      margin-right: 5px;
+    }
   }
 
   #price-info {

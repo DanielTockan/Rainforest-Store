@@ -2,8 +2,6 @@ import React, { useState, useEffect, Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { getUserId } from '../lib/auth'
-import Carousel from 'react-multi-carousel'
-import "react-multi-carousel/lib/styles.css"
 
 const Products = (props) => {
   const [products, updateProduct] = useState([])
@@ -173,7 +171,6 @@ const Products = (props) => {
                       name="category"
                       value={content}
                       onClick={handleSearch}>
-
                     </button>
                   </div>
                 })}
