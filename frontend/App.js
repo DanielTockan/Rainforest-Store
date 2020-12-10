@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter, Switch, Link, Route } from 'react-router-dom'
 import './styles/style.scss'
 
-
 import Home from './components/Home'
 import MyAccount from './components/MyAccount'
 import MyCart from './components/MyCart'
