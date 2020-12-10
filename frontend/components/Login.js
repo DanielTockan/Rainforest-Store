@@ -42,7 +42,7 @@ const Login = (props) => {
 
     <div className="container container-custom">
 
-      <h1 className="text-dark reg" >Welcome back</h1>
+      <h1 className="text-dark reg" >Welcome back!</h1>
       <h1 className="text-dark reg" >Please provide your login details</h1>
       <form
         onSubmit={handleSubmit}
