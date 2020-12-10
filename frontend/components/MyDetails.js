@@ -118,7 +118,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.password}
           name="password"
-          required..
+          required
 
         />
 
