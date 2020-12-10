@@ -35,16 +35,13 @@ def get_single_customer(id):
 @secure_route
 def update_customer(id):
   existing_customer = CustomerModel.query.get(id)
-  favourites = populated_customer.dump(existing_customer)
-  print(favourites)
-
 
   if existing_customer.id != g.current_user.id:
     return { 'message': 'You cannot update a profile that is not yours'}, 404
 
   try:
     customer = populated_customer.load(
-      {"products": [request.get_json(), *favourites]},
+      request.get_json(),
       instance=existing_customer,
       partial=True
     )
