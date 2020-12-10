@@ -11,5 +11,5 @@ class PopulatedCustomerSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     exclude = ('password_hash',)
     load_only = ('password')
   
-  products = fields.Nested('ProductSchema', only=('title', 'price', 'symbol', 'id'), many=True)  
-  orders = fields.Nested('OrderSchema', only=('id', 'total_amount'), many=True)
+  products = fields.Nested('ProductSchema', many=True)  
+  orders = fields.Nested('OrderSchema', many=True)

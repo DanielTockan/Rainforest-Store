@@ -95,18 +95,6 @@ const Register = (props) => {
         <button className="btn btn-success wide">Submit</button>
       </form>
 
-      <div className="card-group">
-        <div className="card" key="index" id="a-card">
-          <div className="card-body">
-            <h5 className="card-title">Sign In</h5>
-            <h6>Sign up now for the greatest deals
-              <div className=""></div>
-            </h6>
-            <Link to="/login" >Already a customer?</Link>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 }

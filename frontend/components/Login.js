@@ -30,7 +30,7 @@ const Login = (props) => {
           setErrors(resp.data)
         } else {
           localStorage.setItem('token', resp.data.token)
-          props.history.push('/products')
+          props.history.push('/')
         }
       })
   }

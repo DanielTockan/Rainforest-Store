@@ -5,8 +5,6 @@ import { getUserId } from '../lib/auth'
 import Carousel from 'react-multi-carousel'
 import "react-multi-carousel/lib/styles.css"
 
-
-
 const Products = (props) => {
   const [products, updateProduct] = useState([])
   const [cart, updateCart] = useState([])
@@ -111,12 +109,12 @@ const Products = (props) => {
 
   ]
 
-  return <div className="section">
+  return <div id="products-page"className="section">
     <div id="carousel" className="section">
-      {/* <div className="container"> */}
+      {/* <div className="container">
         <Carousel
-          swipeable={false}
-          draggable={false}
+          swipeable={true}
+          draggable={true}
           showDots={true}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
@@ -125,7 +123,7 @@ const Products = (props) => {
           autoPlaySpeed={500}
           keyBoardControl={true}
           customTransition="all .5"
-          transitionDuration={500}
+          transitionDuration={1000}
           containerClass="carousel-container"
           removeArrowOnDeviceType={["tablet", "mobile"]}
           deviceType={props.deviceType}
@@ -144,7 +142,7 @@ const Products = (props) => {
             return <div key={index}>{content}</div>
           })}
         </Carousel>
-      {/* </div> */}
+      </div> */}
     </div>
     <div className="container">
       <div className="columns">
@@ -201,17 +199,11 @@ const Products = (props) => {
                   <div className="media">
                     <div className="media-content has-text-centered">
                       <p>{product.title}</p>
-                      <div className="columns mt-2">
-                        <div className="column">
-                          <p>{product.symbol}{product.price}</p>
-                        </div>
-                        <div className="column">
-                          <p>{product.rating}</p>
-                        </div>
-                      </div>
+                      <p className="price">{product.symbol}{product.price}</p>
+                      <p>{product.rating}</p>
                       <button value={product.id}
                         onClick={event => addToCart(event.target.value)}
-                        className="button is-primary">Add to Cart
+                        className="button is-warning">Add to Cart
                        </button>
                     </div>
                   </div>
