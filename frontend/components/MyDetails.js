@@ -90,6 +90,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.username}
           name="username"
+          required
 
         />
 
@@ -103,6 +104,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.email}
           name="email"
+          required
 
         />
 
@@ -116,6 +118,7 @@ const MyDetails = (props) => {
           onChange={handleChange}
           value={formData.password}
           name="password"
+          required..
 
         />
 
