@@ -2,6 +2,7 @@ import React, { useState, useEffect, Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { getUserId } from '../lib/auth'
+import Rating from '@material-ui/lab/Rating'
 
 const Products = (props) => {
   const [products, updateProduct] = useState([])
@@ -13,14 +14,6 @@ const Products = (props) => {
     'category': ''
   })
 
-  const settings = {
-    dots: true,
-    arrows: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  }
 
   const token = localStorage.getItem('token')
   const userId = getUserId(token)
@@ -107,7 +100,7 @@ const Products = (props) => {
 
   ]
 
-  return <div id="products-page"className="section">
+  return <div id="products-page" className="section">
     <div id="carousel" className="section">
       {/* <div className="container">
         <Carousel
@@ -197,7 +190,11 @@ const Products = (props) => {
                     <div className="media-content has-text-centered">
                       <p>{product.title}</p>
                       <p className="price">{product.symbol}{product.price}</p>
-                      <p>{product.rating}</p>
+                      <p><Rating
+                        name="hover-feedback"
+                        value={product.rating}
+                        precision={0.5}
+                      /></p>
                       <button value={product.id}
                         onClick={event => addToCart(event.target.value)}
                         className="button is-warning">Add to Cart

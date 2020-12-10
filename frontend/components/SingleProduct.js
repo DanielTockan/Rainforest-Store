@@ -4,6 +4,7 @@ import { getUserId } from '../lib/auth'
 import { addToCart } from '../lib/addToCart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import Rating from '@material-ui/lab/Rating'
 
 
 const SingleProduct = (props) => {
@@ -32,23 +33,11 @@ const SingleProduct = (props) => {
       .then(resp => {
         updateCustomer(resp.data)
         for (let i = 0; i < resp.data.products.length; i++) {
-          console.log(resp.data.products[0].id)
-          console.log(parseInt(productId))
           if (resp.data.products[i].id === parseInt(productId)) {
-            console.log('hello')
             updateFavourite('blue')
           }
         }
-            // if(!resp.data.products) {
-            //   return
-            // } else {
-            //   for (let i= 0; i < resp.data.products.length; i++) {
-            //     if (resp.data.products[i].id === productId) {
-            //       updateReview('blue')
-            //     }
-            //   }
-            // }
-          })
+      })
   }, [])
 
   function addToCart(id) {
@@ -67,7 +56,6 @@ const SingleProduct = (props) => {
     const reviewData = e.target.value
     updateReviewField('')
     updateReview(reviewData)
-    console.log(reviewData)
   }
 
   function submitReview() {
@@ -98,8 +86,8 @@ const SingleProduct = (props) => {
     <div className="container">
       <div id="product-information" className="columns">
         <div className="centered column">
-          <figure className="image">
-            <img src={singleProduct.image} alt="" />
+          <figure className="image is-rounded">
+            <img className="is-rounded" src={singleProduct.image} alt="" />
           </figure>
         </div>
         <div className="column">
@@ -109,7 +97,12 @@ const SingleProduct = (props) => {
               <p className="price subtitle is-6">{singleProduct.symbol}{singleProduct.price}</p>
             </div>
             <div className="column">
-              <p>{singleProduct.rating}</p>
+              <p><Rating
+                name="hover-feedback"
+                value={singleProduct.rating}
+                precision={0.5}
+              />
+              </p>
             </div>
             <div className="column">
               {userId && <FontAwesomeIcon onClick={handleFavourite} icon={faHeart} style={{ color: `${favourite}` }} />}
@@ -125,16 +118,18 @@ const SingleProduct = (props) => {
               onClick={event => addToCart(event.target.value)}
               className="button is-warning">Add to Cart
             </button>
-            <button className="button"
-              onClick={handleReview}>
-              Add Review
+            <a href="#reviews">
+              <button className="button"
+                onClick={handleReview}>
+                Add Review
             </button>
+            </a>
           </div>
         </div>
       </div>
     </div>
-    <div className="section" id="reviews">
-      <div className="container">
+    <div className="section">
+      <div id="reviews" className="container">
         <div className="columns is-multiline is-mobile">
           {singleProduct.reviews && singleProduct.reviews.map((review, key) => {
             return <div key={key} className="column is-one-third-desktop is-hald-tablet is-half-mobile">
@@ -152,7 +147,7 @@ const SingleProduct = (props) => {
           })}
         </div>
       </div>
-      <div className="container">
+      <div id="new-review" className="container">
         <div className='field' style={{ display: reviewField }}>
           <label className="label">Review</label>
           <div className="control">

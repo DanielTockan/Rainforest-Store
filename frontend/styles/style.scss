@@ -32,15 +32,11 @@
 }
 
 #single-product {
-  margin-top: 60px;
-  
+  padding-top: 60px;
+  background-color:  rgba(84, 164, 139, 0.442);
+
 
   #product-information {
-    display: flex;
-    // justify-content: center;
-    // align-items: center;
-    
-
     .centered {
       display:flex;
       justify-content: center;
@@ -53,7 +49,7 @@
     }
 
     button {
-      margin-right: 5px;
+      margin: 40px 5px 0px 0px;
     }
   }
 
@@ -69,6 +65,19 @@
     FontAwesomeIcon {
       color: red;
     }
+  }
+}
+
+#reviews {
+  width: 80%;
+}
+
+#new-review {
+  margin-top: 30px;
+  width: 80%;
+
+  .control {
+    margin-top: 10px;
   }
 }
 
