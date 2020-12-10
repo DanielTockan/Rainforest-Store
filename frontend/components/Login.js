@@ -26,9 +26,10 @@ const Login = (props) => {
 
     axios.post('/api/login', formData)
       .then(resp => {
-        if (!resp.data.message) {
+        if (resp.status !== 200) {
           setErrors(resp.data)
         } else {
+          console.log(resp)
           localStorage.setItem('token', resp.data.token)
           props.history.push('/')
         }
@@ -77,6 +78,7 @@ const Login = (props) => {
       </form>
     </div>
   </div>
+
 }
 
 export default Login

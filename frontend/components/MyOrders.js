@@ -25,15 +25,25 @@ const MyOrders = () => {
   console.log(orderData)
 
   return <div>
-    <div>{
-      orderData.map((orderData, index) => (
-        <div className="here" key={index}>
-          <div>Order ID: {orderData.id}</div>
-          <div>Order Status: {orderData.order_status}</div>
-          <div>Order Amount: {orderData.total_amount}</div>
-        </div>
-      ))
-    }</div>
+    <section className="list">
+      <div className="list-container">
+        <div>{
+          orderData.map((orderData, index) => (
+            <div className="tracker" key={index}>
+              <div className="list-row" >
+                <div className="product">
+                  <div className="list-details">
+                    <div className="volume list-text" >Order ID: {orderData.id}</div>
+                    <div className="volume list-text" >Order Status: {orderData.order_status}</div>
+                    <div className="list-price list-text">£ {orderData.total_amount}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }</div>
+      </div>
+    </section>
   </div>
 }
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { getUserId } from '../lib/auth'
+import Rating from '@material-ui/lab/Rating'
+
 
 const MySavedItems = () => {
 
@@ -27,17 +29,32 @@ const MySavedItems = () => {
   console.log(productData)
 
   return <div>
-    <div>{
-      productData.map((product, index) => (
-        <div className="here" key={index}>
-          <img src={product.image} />
-          <div>1 {product.title}</div>
-          <div>2 {product.category}</div>
-          <div>3 {product.symbol} {product.price}</div>
-          <div>4 {product.rating}</div>
-        </div>
-      ))
-    }</div>
+    <section id="padding-top" className="list">
+      <div className="list-container">
+        <div>{
+          productData.map((product, index) => (
+            <div className="tracker" key={index}>
+              <div className="list-row" >
+                <div className="product">
+                  <div className="list-details">
+                    <div className="volume-1 title-text"> <img src={product.image} alt="" /></div>
+                  </div>
+                  <div className="volume-2 title-text">{product.title}</div>
+                  <div className="volume-3 category-text" >{product.category}</div>
+                  <div className="list-text">{product.symbol} {product.price}</div>
+                  <div className="list-text-2">{product.rating}</div>
+                </div>
+                <Rating
+                  name="hover-feedback"
+                  value={product.rating}
+                  precision={0.5}
+                />
+              </div>
+            </div>
+          ))
+        }</div>
+      </div>
+    </section>
   </div>
 }
 

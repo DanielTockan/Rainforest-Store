@@ -19,7 +19,7 @@ const Navbar = (props) => {
 
   return <nav className="navbar navbar-expand-md navbar-dark nav-background fixed-top">
 
-    <Link to="/" className="navbar-brand nav-brand">E-Commerce</Link>
+    <Link to="/" className="navbar-brand nav-brand">RainForest Store</Link>
 
     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
       <span className="navbar-toggler-icon"></span>
@@ -27,10 +27,6 @@ const Navbar = (props) => {
 
     <div className="collapse navbar-collapse text-right" id="navbarResponsive">
       <ul className="navbar-nav ml-auto">
-
-        {/* <li className="nav-item">
-          <Link to="/" className="nav-link">Home</Link>
-        </li> */}
 
         {!localStorage.getItem('token') && <li className="nav-item">
           <Link to="/Login" className="nav-link">Sign In</Link>
