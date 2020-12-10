@@ -7,7 +7,6 @@ import Rating from '@material-ui/lab/Rating'
 
 const MySavedItems = () => {
 
-  const [formData, setFormData] = useState({})
   const [productData, setProductData] = useState([])
 
   const token = localStorage.getItem('token')
@@ -19,7 +18,6 @@ const MySavedItems = () => {
     })
       .then((resp) => {
         setProductData(resp.data.products)
-        setFormData(resp.data)
       })
   }, [])
 
@@ -34,7 +32,7 @@ const MySavedItems = () => {
         <div>{
           productData.map((product, index) => (
             <div className="tracker" key={index}>
-              <div className="list-row" >
+              <Link to={`/products/${product.id}`} ><div className="list-row" >
                 <div className="product">
                   <div className="list-details">
                     <div className="volume-1 title-text"> <img src={product.image} alt="" /></div>
@@ -50,6 +48,7 @@ const MySavedItems = () => {
                   precision={0.5}
                 />
               </div>
+              </Link>
             </div>
           ))
         }</div>

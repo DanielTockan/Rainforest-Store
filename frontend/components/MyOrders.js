@@ -31,10 +31,10 @@ const MyOrders = () => {
           orderData.map((orderData, index) => (
             <div className="tracker" key={index}>
               <div className="list-row" >
-                <div className="product">
-                  <div className="list-details">
-                    <div className="volume list-text" >Order ID: {orderData.id}</div>
-                    <div className="volume list-text" >Order Status: {orderData.order_status}</div>
+                <div className="order">
+                  <div className="order-details">
+                    <div className="volume-3 list-text" >Order ID: {orderData.id}</div>
+                    <div className="volume-3 list-text" >Order Status: {orderData.order_status}</div>
                     <div className="list-price list-text">£ {orderData.total_amount}</div>
                   </div>
                 </div>

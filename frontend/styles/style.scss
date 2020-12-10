@@ -95,7 +95,7 @@
   background-size: cover;
 }
 .background-image-register {
-  background-image: url('https://i.imgur.com/PlqvKd0.jpg');
+  background-image: url('https://i.imgur.com/JQstozQ.jpg');
   background-size: cover;
 }
 .background-image-my-account {
@@ -235,11 +235,36 @@
   margin-right: 10px;
 }
 
+.order {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  min-width: 300px;
+}
+
+.order h1 {
+  font-size: 16px;
+  width: 500px;
+}
+
+.order img {
+  height: 90px;
+  width: 500px;
+  margin-right: 10px;
+}
+
 .list-details {
   display: flex;
   text-align: center;
   justify-content: space-between;
   width: 100px;
+}
+
+.order-details {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  width: 600px;
 }
 
 .volume-1 {
@@ -285,4 +310,19 @@
 
 #padding-top {
   margin-top: 60px;
+}
+
+.card-reg {
+  height: 250px;
+}
+
+.reg {
+  color: white;
+  text-decoration: boldest;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  width: 250px;
 }

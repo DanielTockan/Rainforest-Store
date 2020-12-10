@@ -41,6 +41,9 @@ const Login = (props) => {
   return <div className="background-image-login">
 
     <div className="container container-custom">
+
+      <h1 className="text-dark reg" >Welcome back</h1>
+      <h1 className="text-dark reg" >Please provide your login details</h1>
       <form
         onSubmit={handleSubmit}
       >
@@ -71,7 +74,7 @@ const Login = (props) => {
         </p>}
 
         <button
-          className="btn btn-dark">
+          className="btn btn-danger">
           Login
       </button>
 

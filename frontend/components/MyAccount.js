@@ -33,7 +33,7 @@ const SingleAccount = (props) => {
         <div className="card card-height">
           <div className="card-body">
             <Link to={`/myaccount/${userId}/orders`}><h5 className="card-title">My Orders</h5></Link>
-            <p className="card-text">Keep track of all of your current pending and completed orders, here.</p>
+            <p className="card-text">This is the spot to keep track of all of your current pending and completed orders, here.</p>
           </div>
         </div>
       </div>

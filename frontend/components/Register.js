@@ -50,6 +50,7 @@ const Register = (props) => {
   return <div className="background-image-register">
     <div className="container container-custom">
 
+      <h1 className="text-warning reg" >Join Rainforest for your shopping this Christmas</h1>
       <form
         onSubmit={handleSubmit}>
         <div className="form-group">
