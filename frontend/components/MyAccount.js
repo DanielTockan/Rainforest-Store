@@ -21,9 +21,6 @@ const SingleAccount = (props) => {
       })
   }, [])
 
-  console.log(token)
-  console.log(formData)
-
 
   return <div className="section background-image-my-account">
     <h1 className="text-warning title-text-myaccount">Welcome back {formData.username}</h1>

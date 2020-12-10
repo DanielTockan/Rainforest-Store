@@ -76,19 +76,21 @@ def add_to_cart(product_id):
     except ValidationError as e:
       return { 'errors': e.messages, 'message': 'Something went wrong.' }  
 
-    current_order = OrderModel.query.filter_by(current_order=True).first()
+    current_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
     current_order_data = order_schema.dump(current_order)
 
     try:
-      calculate_amount = 0
+      calculate_amount = current_order_data['total_amount']
+      
       for i in range(len(current_order_data['products'])):
         calculate_amount = current_order_data['products'][i]['price'] + calculate_amount
-
+      
       total_amount = populated_order_schema.load(
         {"total_amount": calculate_amount},
         instance=current_order,
         partial=True
       )
+
       total_amount.save()
     
     except ValidationError as e:
