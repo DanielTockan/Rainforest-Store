@@ -10,3 +10,4 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 
   customer = fields.Nested('CustomerSchema', only=('username', 'id'),  many=False)
+  reviews = fields.Nested('ReviewSchema', many=True)

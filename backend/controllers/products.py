@@ -171,3 +171,8 @@ def create_review(id):
   review.product = product
   review.save()
   return review_schema.jsonify(review)
+
+@router.route('products/<int:id>/reviews', methods=['GET'])
+def get_review(id):
+  reviews = ReviewModel.query.get(id)
+  return review_schema.jsonify(reviews)

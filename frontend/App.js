@@ -4,7 +4,6 @@ import './styles/style.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
-
 // import Home from './components/Home'
 import MyDetails from './components/MyDetails'
 import MyOrders from './components/MyOrders'
@@ -29,7 +28,7 @@ const App = () => (
       <Route exact path="/myaccount/:id/orders" component={MyOrders} />
       <Route exact path="/mycart" component={MyCart} />
       <Route exact path="/register" component={Register} />
-      <Route exact path="/products/singleproduct" component={SingleProduct} />
+      <Route exact path="/products/:id" component={SingleProduct} />
     </Switch>
   </BrowserRouter>
 )

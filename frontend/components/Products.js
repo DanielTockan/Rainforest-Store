@@ -2,6 +2,8 @@ import React, { useState, useEffect, Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { getUserId } from '../lib/auth'
+import Carousel from 'react-multi-carousel'
+import "react-multi-carousel/lib/styles.css"
 
 const Products = (props) => {
   const [products, updateProduct] = useState([])
@@ -12,6 +14,15 @@ const Products = (props) => {
     'searchbar': '',
     'category': ''
   })
+
+  const settings = {
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  }
 
   const token = localStorage.getItem('token')
   const userId = getUserId(token)
@@ -64,17 +75,75 @@ const Products = (props) => {
     const filteredProducts = products.filter(product => {
       const title = product.title.toLowerCase()
       const filterText = search.searchbar.toLowerCase()
-      return title.includes(filterText) && 
-      (search.category === '' || product.category === search.category)
+      return title.includes(filterText) &&
+        (search.category === '' || product.category === search.category)
     })
-    return filteredProducts  
+    return filteredProducts
   }
- 
+
   // if(!products[0].image){
   //   return <h1>Loading</h1>
   // }
 
-  return <div className="section">
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  }
+
+  const carouselImages = [
+
+  ]
+
+  return <div id="products-page"className="section">
+    <div id="carousel" className="section">
+      {/* <div className="container">
+        <Carousel
+          swipeable={true}
+          draggable={true}
+          showDots={true}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          // autoPlay={props.deviceType !== "mobile" ? true : false}
+          autoPlaySpeed={500}
+          keyBoardControl={true}
+          customTransition="all .5"
+          transitionDuration={1000}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          deviceType={props.deviceType}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
+          <div>
+            <p onClick={handleSearch}
+          value="Amazon Devices & Accessories"
+          name="category">Amazon Devices & Accessories</p>
+          </div>
+          <div>Item 2</div>
+          <div>Item 3</div>
+          <div>Item 4</div>
+          {categories.map((content, index)=> {
+            return <div key={index}>{content}</div>
+          })}
+        </Carousel>
+      </div> */}
+    </div>
     <div className="container">
       <div className="columns">
         <div className="column">
@@ -84,6 +153,7 @@ const Products = (props) => {
             onChange={handleSearch}
           />
         </div>
+
         <div className="column">
           <div className={`dropdown ${dropdownIsActive ? "is-active" : ""}`}>
             <div className="dropdown-trigger">
@@ -99,11 +169,11 @@ const Products = (props) => {
               <div className="dropdown-content pl-2">
                 {categories.map((content, index) => {
                   return <div className="mt-1" key={index}>
-                    <button 
+                    <button
                       name="category"
                       value={content}
                       onClick={handleSearch}>
-                    {content}
+
                     </button>
                   </div>
                 })}
@@ -129,17 +199,11 @@ const Products = (props) => {
                   <div className="media">
                     <div className="media-content has-text-centered">
                       <p>{product.title}</p>
-                      <div className="columns mt-2">
-                        <div className="column">
-                          <p>{product.symbol}{product.price}</p>
-                        </div>
-                        <div className="column">
-                          <p>{product.rating}</p>
-                        </div>
-                      </div>
+                      <p className="price">{product.symbol}{product.price}</p>
+                      <p>{product.rating}</p>
                       <button value={product.id}
                         onClick={event => addToCart(event.target.value)}
-                        className="button is-primary">Add to Cart
+                        className="button is-warning">Add to Cart
                        </button>
                     </div>
                   </div>

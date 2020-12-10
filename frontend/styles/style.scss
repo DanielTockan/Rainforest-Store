@@ -1,5 +1,8 @@
 
+#products-page {
+  background-color: rgba(84, 164, 139, 0.442);
 
+}
 .card {
   height: 100%;
   align-items: center;
@@ -9,8 +12,50 @@
     height: auto;
     width: 200px;
   }
-  
 }
+.price {
+  color: red;
+}
+#carousel {
+  display: flex;
+  justify-content: center;
+
+
+  .carousel-container { 
+    height: 200px;
+    width: 100%;
+  }
+
+  .custom-dot-list-style {
+    display: none;
+  }
+}
+
+#single-product {
+  margin-top: 60px;
+
+  #product-information {
+    display: flex;
+    // justify-content: center;
+    // align-items: center;
+  }
+
+  #price-info {
+    display:flex;
+    width: 100%;
+    text-align: center;
+
+    .price {
+      color: red;
+    }
+
+    FontAwesomeIcon {
+      color: red;
+    }
+  }
+}
+
+
 
 .container-custom {
   height: 100vh;
