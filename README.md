@@ -1,10 +1,10 @@
 # Rainforest E-Store (SEI Project 4)
 
-![Rainforst](Screenshot to be added soon)
+
 
 ## Project Overview
 
-The Rainforest store was designed to be the one stop shop for all of the goods
+The Rainforest store was...
 
 ### Table of Contents
 
