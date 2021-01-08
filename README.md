@@ -4,9 +4,9 @@
 
 ## Project Overview
 
-The Rainforest E-Store is a full-stack application where customers can complete their online shopping through a clean and user friendly interface. It was built using Python Flask for the back-end, a postgreSQL relational databse and a React front-end. 
+The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user friendly interface. It was built using Flask, Python and a postgreSQL relational databsefor the back-end,  and a React front-end. 
 
-The concept was inspired by the growing trend of retail businesses improving their online presence, and presented a considerable increase in complexity in comparison to the projects covered within our classwork.
+The concept was inspired by the growing trend of retail businesses improving their online presence during this time, and presented a considerable increase in complexity in comparison to the projects covered within our classwork.
 
 This was my final and most challenging project with GA, but also my most enjoyble. Despite only having being taught Python and SQL the week prior, I got very comfortable the languages and creating intricate table relationships.
 
@@ -124,7 +124,7 @@ Each column witin the table  corresponds to a line of code within the "CustomerM
 
 ![TablePlus](./resources/screenshots/tableplus.png)
 
-The "id", "created_at" and "updated_at" columns, originate from the BaseModel, which was passed in as an arguement to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying our code.
+The "id", "created_at" and "updated_at" columns, originate from the BaseModel, which was passed in as an arguement to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying the code.
 
 ```py
 class BaseModel: 
@@ -160,9 +160,9 @@ orders_products_join = db.Table('orders_products',
   db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True)
 ```
 
-It's purpose was to act as a standalone table that stored a record for each of the combinations between the counterpart tables (as a row). (READ NOTES AND ELABORATE ON WHY MORE EXPLICITYLY!!!) A lot of prior code and rationale was required for this to function.
+It's purpose was to create a standalone table that stored a record for each of the combinations between the counterpart tables as a row. (READ NOTES AND ELABORATE ON WHY THIS WAS NECESSARY MORE EXPLICITYLY!!!) A lot of prior code and rationale was required for this to function.
 
-Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both (READ NOTES AND EXPLICTY ELABORATE ON WHY!!!)
+Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both (READ NOTES AND EXPLICTY ELABORATE ON WHY!!! - IS IT RECURSION???)
 
 
 ```py
@@ -211,9 +211,9 @@ class ProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 ```
 
-An important aspect of Marshamllow was that it allowed for nested fields to be added to the schema. This nesting allowed me to represent the table relationships defined as part of the models in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
+An important aspect of Marshamllow was that it permits nested fields to be added to the schema. This feature allowed me to represent the table relationships defined as part of the models in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
 
-The nesting also empowered me to decid if when, and where in the app certain relationships would be visible. This was done by duplicaating the necessary schemas and adding nested fields as desired. 
+As I a result, I could decide if, when, and where in the app certain relationships fields would be visible. This was done by duplicaating the necessary schemas and adding nested fields as desired. 
 
 An instance of this was the "Populated Product Schema":
 
@@ -232,12 +232,127 @@ class PopulatedProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   reviews = fields.Nested('ReviewSchema', many=True)
 ```
 
-The nested reviews field was not present in the Product Schema, but makes an appearance here. The added will be explaied within the controllers section.
+The nested reviews field was not present in the Product Schema, but makes an appearance here. The added benefit of this will be explaied within the controllers section.
 
 
 #### Controllers
 
+Flasks Blueprint pattern was used to create the routes for the project, dictating the logic that retireved data from the data and returned JSON objects to the front-end server. These routes are located within three controllers for the app.
+- Customer controller
+- Order controller
+- Product controller
 
+It is within these routes that the schemas were instantiated, and the functioanilty of the backend comes to action.
+
+Taking a look at the product controller:
+
+```py
+router = Blueprint(__name__, 'products')
+
+product_schema = ProductSchema()
+populated_product = PopulatedProductSchema()
+```
+
+Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This gave me a great level of control of the JSON object response fields that were returned from the each routea. The decision was now mine which schema would more appropriate to use for a route, based off of how which fields were necessary at different points within the app.
+
+This was demonstrated with the "get_products" and the "get_single_product" functions:
+
+The former function was built with the purpose of fetching the data for all products that would be rendered on a homepage style compoonent.
+
+```py
+@router.route('/products', methods=['GET'])
+def get_products():
+  products = ProductModel.query.all()
+  return product_schema.jsonify(products, many=True), 200
+```
+ Whereas the latter was built with the intent of rendering a single product on its individual page. 
+
+```py
+@router.route('/products/<int:id>', methods=['GET'])
+def get_single_product(id):
+  single_product = ProductModel.query.get(id)
+
+  if not single_product:
+    return { 'message': 'This product is not available' }, 404
+
+  return populated_product.jsonify(single_product), 200
+```
+
+Given this context, it was deemed unnecessary for the populated prodcuts schema (containing the nested review field) to be instantiated for the route returning all prodcuts, but essential for the individual product page.
+
+#### Adding an item to the cart:
+
+```py
+@router.route('/products/<int:product_id>/add-to-cart', methods=['PUT', 'POST'])
+@secure_route
+def add_to_cart(product_id):
+  single_product = ProductModel.query.get(product_id)
+  single_product_data = product_schema.dump(single_product)
+  current_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
+  current_order_data = populated_order_schema.dump(current_order) 
+  current_customer = CustomerModel.query.filter_by(id=g.current_user.id).first()
+  current_customer_data = customer_schema.dump(current_customer)
+
+  if current_order: 
+    try:
+      item = populated_order_schema.load(
+      {"products": [*current_order_data['products'], single_product_data]},
+      instance=current_order,
+      partial=True
+    )
+      item.save()
+
+    except ValidationError as e:
+      return { 'errors': e.messages, 'message': 'Something went wrong.' }  
+
+    current_order = OrderModel.query.filter_by(customer_id=g.current_user.id, current_order=True).first()
+    current_order_data = order_schema.dump(current_order)
+
+    try:
+      calculate_amount = current_order_data['total_amount']
+      
+      for i in range(len(current_order_data['products'])):
+        calculate_amount = current_order_data['products'][i]['price'] + calculate_amount
+      
+      total_amount = populated_order_schema.load(
+        {"total_amount": calculate_amount},
+        instance=current_order,
+        partial=True
+      )
+
+      total_amount.save()
+    
+    except ValidationError as e:
+      return { 'errors': e.messages, 'message': 'Something went wrong.' }
+  
+    return populated_order_schema.jsonify(item), 200
+
+
+  elif not current_order: 
+    create_new_item = populated_order_schema.load({
+      "current_order": "true",
+      "products": [single_product_data],
+      "customer_id": g.current_user.id,
+      "order_status": "In progress",
+      "total_amount": single_product_data['price']},
+      instance=OrderModel()
+    )
+
+    try:
+      create_new_item.save()
+
+    except ValidationError as e:
+      return { 'errors': e.messages, 'message': 'Something went wrong.' }
+
+    return populated_order_schema.jsonify(create_new_item), 200
+  
+  else:
+    return 'No data recorded', 200
+    
+```
+
+ADD INFO ABOUT THE LOGIC BEHIND THIS FUNCTION
+TOUCH ON ASPECTS RELATING TO THE SECURE ROUTE ALSO
 
 ### Front-end:
 
