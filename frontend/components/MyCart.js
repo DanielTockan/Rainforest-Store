@@ -21,26 +21,26 @@ const MyCart = (props) => {
       })
   }, [])
 
-  function handleRemoveItem(id){
+  function handleRemoveItem(id) {
     console.log(id)
     axios.delete(`/api/${id}/delete-from-cart`)
-    .then(resp => {
-      axios.get(`/api/orders`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then(resp => {
-          updateCart(resp.data[0])
+      .then(resp => {
+        axios.get(`/api/orders`, {
+          headers: { Authorization: `Bearer ${token}` }
         })
-    })
+          .then(resp => {
+            updateCart(resp.data[0])
+          })
+      })
   }
 
   function handleFinalize() {
     axios.put(`/api/orders/finalize-order`, {}, {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { Authorization: `Bearer ${token}` }
     })
-    .then(resp => {
-      props.history.push('/')
-    })
+      .then(resp => {
+        props.history.push('/')
+      })
   }
 
   if (!cart[0]) {
@@ -62,7 +62,7 @@ const MyCart = (props) => {
                 </div>
                 <div className="column">
                   <button className="button is-warning"
-                  onClick={handleRemoveItem(product.id)}>
+                    onClick={handleRemoveItem(product.id)}>
                     Remove Item
               </button>
                 </div>
@@ -75,7 +75,7 @@ const MyCart = (props) => {
         </div>
         <div className="column">
           <button className="button is-primary"
-          onClick={handleFinalize}>
+            onClick={handleFinalize}>
             Finalize Order
           </button>
         </div>

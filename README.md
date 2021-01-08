@@ -1,3 +1,10 @@
+<!-- I still need to
+- Elaborate greatly on the add to cart fucntion in the controller
+- Elaborate greatly on the generator function for the API
+- Make mention of the add to favoruties issue being faced with controller
+- Maybe mention somewhere that it needs a redesign.its own function
+- Add Trello and user stories
+ -->
 # Rainforest E-Store (SEI Project 4)
 
 ![GA Logo](./resources/screenshots/GALogo.png)
@@ -356,21 +363,110 @@ TOUCH ON ASPECTS RELATING TO THE SECURE ROUTE ALSO
 
 ### Front-end:
 
+The interface and flow of the app was designed to mimic the functionality of a site like Amazon. We had decided it was to include:
+- A home page, displaying the catalogue of products
+- An individual product page
+- My Account page
+- My Cart
+- Registration and login
+
 #### Home Page
+
+![Home Page](./resources/screenshots/homepage.png)
+
+The goods sold on our website were rendered on our page by mapping the products seeded from our database into cards on a page, like below:
+
+```js
+{filterProductsResults().map((product, index) => {
+            return <div key={index} className="column is-one-third-desktop is-half-tablet is-half-mobile">
+              <div className="card">
+                <Link to={`/products/${product.id}`} className="card-image">
+                  <figure className="image is-4by3">
+                    <img src={product.image} alt={product.title} />
+                  </figure>
+                </Link>
+                <div className="card-content">
+                  <div className="media">
+                    <div className="media-content has-text-centered">
+                      <p>{product.title}</p>
+                      <p className="price">{product.symbol}{product.price}</p>
+                      <p><Rating
+                        name="hover-feedback"
+                        value={product.rating}
+                        precision={0.5}
+                      /></p>
+                      <button value={product.id}
+                        onClick={event => addToCart(event.target.value)}
+                        className="button is-warning">Add to Cart
+                       </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          })}
+```
+
+Clicking on any of these products led you to the page for the individual product where the ability to favourite the item and leave reviews was possible.
+
+![Home Page](./resources/screenshots/product_page.png)
+
+As you can see, we had a very happy customer in Daniel. He left a review and added the products to his favourites.
 
 #### My Cart
 
+Once items were added to the cart, they landed here.
+
+![Cart](./resources/screenshots/cart.png)
+
+Customers are able to keep track of the items they had added and keep a running total of the cost.
+
+CRUD funcitonality was implemented into the page with the options to remove items and finalize the order granted. Upon finalising an order, a put request made updateting the current users order history.
+
+```js
+  function handleFinalize() {
+    axios.put(`/api/orders/finalize-order`, {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        props.history.push('/')
+      })
+  }
+
+  if (!cart[0]) {
+    return <h1>No open cart</h1>
+  }
+```
+
 #### My Account Page
+
+![Account](./resources/screenshots/account_page.png)
+
+The My Account page acted as the hub for users to view their order history, their favourites and update their credentials.
 
 <br>
 
 ## Triumphs
+
+- Achieved all of our stretch goals relating to the backend.
+- No major issues experienced using git, ie losing data or mismanaged conflicts.
+- Learned a new programming language (Python and SQL) in a shot space of time
+- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards back-end (I still enjoy front-end development!)
 
 
 <br>
 
 ## Obstacles Faced and Lessons
 
+- Working with a partner in a completely time-zone to me presented some challenges in synchronising our schedules when outside of working hours(necessary towards the final days)
+- We exhausted our API call limit twice, meaning we had to set up a new email address to continue with work. This was due largely to the fact we were seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end
+- Too little time left towards the end of the project to work on and build a more visually impressive front-end. In future, wireframing will be conducted at an earlier stage (ours was done after the back-end build)
+- Poor internet connectivity made communication difficult at some critical moments during the proejct. I qucikly learned to adapt and communicate technical/debugging issues effectively via written communication in slack when Zoom was not available
+
 <br>
 
 ## Future Features
+
+- Overall polishing of the design of the app across all components
+- Introduction of a chatbot using websockets to answer user queries
+- Redesign of certain controller to optimum levels
