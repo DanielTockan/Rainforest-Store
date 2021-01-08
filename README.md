@@ -20,6 +20,7 @@ Upon completion, the project was deployed via Heroku.
 2. [The Brief](#The-Brief)
 3. [Technologies Used](#Technologies-Used)
 4. [The Approach](#The-Approach)
+    - [The-API](#The-API)
     - [Planning](#Planning)
     - [Back-end](#Back-end)
     - [Front-end](#Front-end)
@@ -91,6 +92,8 @@ Quick DBD was used to create the entity relationship diagrams, graphically descr
 
 This is the final design that waa settled on, following several iterations.
 
+### The API:
+
 ### Back-end:
 
 #### Models
@@ -121,7 +124,7 @@ Each column witin the table  corresponds to a line of code within the "CustomerM
 
 ![TablePlus](./resources/screenshots/tableplus.png)
 
-The "id", "created_at" and "updated_at" columns, originate from the BaseModel, passed in as an arguement to the class, prior to the extension with the custom fields that were added. This was carried out for all of models used in the app.
+The "id", "created_at" and "updated_at" columns, originate from the BaseModel, which was passed in as an arguement to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying our code.
 
 ```py
 class BaseModel: 
@@ -136,14 +139,17 @@ The complexity kicked in when it came to desiging the relationships. We designed
 **Many to Many (M-M)** 
 - Order & Products <br> - When a customer checks out (places an order), they are able to buy many items (prodcuts) at a time, whether they be a variety of different products or a bulk buy of the same product. <br> - Provided there is enough stock, products are able to be purchased as part of many different orders. <br>
 
-- Customers & Products <br> - A customer should be able to save more than one item to their favourites/wishlist <br> - Popular items should be able to the the favourties/wish lists of more than one custonmer
+- Customers & Products <br> - A customer is be able to save more than one item to their favourites/wish-list <br> - Popular items can be added to the wish-lists/favourited by many customers.
 
 **One to Many (1-M)** 
 - Products to Reviews - A product in the store can have many customer reviews.
 - Customers to Orders - A customer is able to return and place another order.
 - Customers to Reviews - Assuming a customer buys more than one product, they are able to leave reviews for each of those prodcuts.
 
-The M-M relation relationships the products shared with the order and customer models meant that join tables were needed. <br>
+From this basis, the models illustrated in the entity relationship diagram above were built.
+
+The M-M relation relationships the products shared with the order and customer models meant that join a table was required. <br>
+
 Here is an extract of the order-product join:
 
 ```py
@@ -154,7 +160,7 @@ orders_products_join = db.Table('orders_products',
   db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True)
 ```
 
-It's purpose was to act as a standalone table that stored a record for each of the combinations between the counterpart tables, as a row. (READ NOTES AND ELABORATE ON WHY MORE EXPLICITYLY!!!) The simplistic appearance of this two liner can be decieving as a lot of prior code and rationale was required for this to function.
+It's purpose was to act as a standalone table that stored a record for each of the combinations between the counterpart tables (as a row). (READ NOTES AND ELABORATE ON WHY MORE EXPLICITYLY!!!) A lot of prior code and rationale was required for this to function.
 
 Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both (READ NOTES AND EXPLICTY ELABORATE ON WHY!!!)
 
@@ -187,9 +193,51 @@ Within the same model, reference to the 1-M relationship between customers and o
 
 #### Serializers
 
+Given that our Flask back-end was written in Python, as it stood, the models were not able to interact with our API (written in JSON) and React front-end. The serializers facilitated the communication between the disparate languages, acting as a form a translator. This was achieved using Marshmallow.
+
+Each of our models (including the base) had a corresponsing schema to which it was imported.
+This was no exception for the "Product Schema" below:
+
+```py
+from app import ma
+from serializers.base import BaseSchema
+from marshmallow import fields
+from models.product import ProductModel
+
+class ProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
+
+  class Meta:
+    model = ProductModel
+    load_instance = True
+```
+
+An important aspect of Marshamllow was that it allowed for nested fields to be added to the schema. This nesting allowed me to represent the table relationships defined as part of the models in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
+
+The nesting also empowered me to decid if when, and where in the app certain relationships would be visible. This was done by duplicaating the necessary schemas and adding nested fields as desired. 
+
+An instance of this was the "Populated Product Schema":
+
+```py
+from app import ma
+from serializers.base import BaseSchema
+from marshmallow import fields
+from models.product import ProductModel
+
+class PopulatedProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
+
+  class Meta:
+    model = ProductModel
+    load_instance = True
+
+  reviews = fields.Nested('ReviewSchema', many=True)
+```
+
+The nested reviews field was not present in the Product Schema, but makes an appearance here. The added will be explaied within the controllers section.
 
 
 #### Controllers
+
+
 
 ### Front-end:
 
