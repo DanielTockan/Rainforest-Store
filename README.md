@@ -5,6 +5,7 @@
 - Maybe mention somewhere that it needs a redesign.its own function
 - Add Trello and user stories
 - Add insomnia screenshots of the JSON responses in the relevent locations
+- Improve overall quality from add-to-cart function
  -->
 # Rainforest E-Store (SEI Project 4)
 
