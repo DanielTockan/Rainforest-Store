@@ -1,19 +1,10 @@
-<!-- I still need to
-- Elaborate greatly on the add to cart fucntion in the controller
-- Elaborate greatly on the generator function for the API
-- Make mention of the add to favoruties issue being faced with controller
-- Maybe mention somewhere that it needs a redesign.its own function
-- Add Trello and user stories
-- Add insomnia screenshots of the JSON responses in the relevent locations
-- Improve overall quality from add-to-cart function
- -->
 # Rainforest E-Store (SEI Project 4)
 
 ![GA Logo](./resources/screenshots/GALogo.png)
 
 ## Project Overview
 
-The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user friendly interface. It was built using Flask, Python and a postgreSQL relational databsefor the back-end,  and a React front-end. 
+The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user friendly interface. It was built using Flask, Python, a postgreSQL relational databse for the back-end,  and a React front-end. 
 
 The concept was inspired by the growing trend of retail businesses improving their online presence during this time, and presented a considerable increase in complexity in comparison to the projects covered within our classwork.
 
@@ -84,7 +75,7 @@ Upon completion, the project was deployed via Heroku.
 
 ### Planning:
 
-Once the concept for the application and our choice of API were finalised, the emphasis was placed on ensuring that the model design was robust. The motivation behind this was to avoid major code refactoring and debugging further down the line, and to have the desired full functionality across the store. 
+Once the concept for the application and our choice of API were finalised, the emphasis was placed on ensuring that the model design was robust. The motivation behind this was to avoid major code refactoring and debugging further down the line.
 
 Our key considerations were:
 - What SQL tables/models were necessary
@@ -102,6 +93,50 @@ Quick DBD was used to create the entity relationship diagrams, graphically descr
 This is the final design that waa settled on, following several iterations.
 
 ### The API:
+
+[Rainforest API](https://rainforestapi.com/) was selected to fetch the data seeded into the prodcut model in our backend. This API was chosen due to its rich catalogue with thousands of product scraped from Amazon. The responses contained datapoints such as price, description etc., necessary for our e-commerce website.
+
+In the seed file, the "get_product" function was created to format the data in a way that was compatible with the product model: 
+
+```py
+def get_product(name, url):
+    resp = requests.get(f'https://api.rainforestapi.com/request?api_key={API_KEY}&type=bestsellers&url={url}')
+    request_dictionary = resp.json()
+    products_list = request_dictionary['bestsellers']
+
+    print(f'Updating postgres details for {name}')
+
+    for item in range(len(products_list)):
+      try:
+        product = ProductModel(
+          title = products_list[item]['title'],
+          rating = products_list[item]['rating'],
+          category = products_list[item]['current_category']['name'],
+          price = products_list[item]["price"]["value"],
+          currency = products_list[item]['price']['currency'],
+          symbol = products_list[item]['price']['symbol'],
+          image = products_list[item]['image']
+        )
+      except: 
+        continue
+
+      product.save()
+```
+The generator below, looped through each of the name and url arguements in the "bestsellers_list". The url was then embedded into the get request, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of prodcuts per cateogry.
+
+```py
+  bestsellers_list = [
+    ("Amazon Devices & Accessories", "https://www.amazon.co.uk/Best-Sellers/zgbs/amazon-devices/ref=zg_bs_nav_0/261-3310178-9376341"),
+    ("Amazon Launchpad", "https://www.amazon.co.uk/Best-Sellers-Amazon-Launchpad/zgbs/boost/ref=zg_bs_nav_0/261-3310178-9376341"),
+    ("Apps & Games", "https://www.amazon.co.uk/Best-Sellers-Appstore-Android/zgbs/mobile-apps/ref=zg_bs_nav_0/261-3310178-9376341"),
+    ("Audible Audiobooks & Originals", "https://www.amazon.co.uk/Best-Sellers-Audible-Audiobooks/zgbs/audible/ref=zg_bs_nav_0/261-3310178-9376341"),
+    ("Computers and Accessories", "https://www.amazon.co.uk/Best-Sellers-Computers-Accessories/zgbs/computers/ref=zg_bs_nav_0/261-3310178-9376341")
+  ]
+
+  [get_product(name, url) for name, url in bestsellers_list]
+```
+
+There was a constraint on the number of API calls we could make with our membership type, as a result all but one category were commented out for development with the intention of using all categories for deployment.
 
 ### Back-end:
 
@@ -262,7 +297,7 @@ product_schema = ProductSchema()
 populated_product = PopulatedProductSchema()
 ```
 
-Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This gave me a great level of control of the JSON object response fields that were returned from the each routea. The decision was now mine which schema would more appropriate to use for a route, based off of how which fields were necessary at different points within the app.
+Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This gave me a great level of control of the JSON object datapoints that were returned from each route. I could decide which schema to use based on which specific datapoints were necessary for that part of the user journey.
 
 This was demonstrated with the "get_products" and the "get_single_product" functions:
 
@@ -276,6 +311,8 @@ def get_products():
 ```
  Whereas the latter was built with the intent of rendering a single product on its individual page. 
 
+![Get all products](./resources/screenshots/get_products.png)
+
 ```py
 @router.route('/products/<int:id>', methods=['GET'])
 def get_single_product(id):
@@ -286,10 +323,14 @@ def get_single_product(id):
 
   return populated_product.jsonify(single_product), 200
 ```
+![Get single product](./resources/screenshots/get_single_product.png)
 
-Given this context, it was deemed unnecessary for the populated prodcuts schema (containing the nested review field) to be instantiated for the route returning all prodcuts, but essential for the individual product page.
+Given this context, it was deemed unnecessary for the populated prodcuts schema (containing the nested review field) to be instantiated for the route returning all products, but essential for the individual product page.
 
 #### Adding an item to the cart:
+
+Adding items to the cart was the trickiest fucntion to implement across the app due to the complex logic involved.
+
 
 ```py
 @router.route('/products/<int:product_id>/add-to-cart', methods=['PUT', 'POST'])
@@ -360,12 +401,27 @@ def add_to_cart(product_id):
     
 ```
 
-ADD INFO ABOUT THE LOGIC BEHIND THIS FUNCTION
-TOUCH ON ASPECTS RELATING TO THE SECURE ROUTE ALSO
+There "current_order" field within the order model has a data type of Boolean. When True, this denotes that this is the order currently being executed and points to the corresponding order ID. This line is essential in adding items to the correct order when adding to cart.
+
+
+```py
+class OrderModel(db.Model, BaseModel):
+  __tablename__ = 'orders'
+
+  # total_amount = db.Column(db.Float, nullable=True)
+  # order_status = db.Column(db.String(20), nullable=False)
+  # customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=True)
+  current_order = db.Column(db.Boolean, nullable=True)
+  # customer = db.relationship('CustomerModel', backref='orders')
+  # products = db.relationship('ProductModel', secondary=orders_products_join, backref='orders')
+  ```
+
+  Logic to calculate the sum of prices of all products within the order was present so customers are able to track their total spend.
+
 
 ### Front-end:
 
-The interface and flow of the app was designed to mimic the functionality of a site like Amazon. We had decided it was to include:
+The interface and flow of the app was designed to mimic the functionality of a site like Amazon. We decided to include:
 - A home page, displaying the catalogue of products
 - An individual product page
 - My Account page
@@ -409,15 +465,13 @@ The goods sold on our website were rendered on our page by mapping the products 
           })}
 ```
 
-Clicking on any of these products led you to the page for the individual product where the ability to favourite the item and leave reviews was possible.
+Clicking on any of these products leads to the page for the individual product, where the ability to favourite the item and leave reviews is possible.
 
 ![Home Page](./resources/screenshots/product_page.png)
 
-As you can see, we had a very happy customer in Daniel. He left a review and added the products to his favourites.
-
 #### My Cart
 
-Once items were added to the cart, they landed here.
+Once items are added to the cart, they land here.
 
 ![Cart](./resources/screenshots/cart.png)
 
@@ -444,26 +498,26 @@ CRUD funcitonality was implemented into the page with the options to remove item
 
 ![Account](./resources/screenshots/account_page.png)
 
-The My Account page acted as the hub for users to view their order history, their favourites and update their credentials.
+The My Account page acted as the hub for users to view their order history, their favourites and update their credentials. Each have their own individual pages that can be accessed by clicking on the links.
 
 <br>
 
 ## Triumphs
 
-- Achieved all of our stretch goals relating to the backend.
-- No major issues experienced using git, ie losing data or mismanaged conflicts.
-- Learned a new programming language (Python and SQL) in a shot space of time
-- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards back-end (I still enjoy front-end development!)
+- Learned and gained confidence with a new programming language (Python and SQL) in a condensed time-frame
+- Achieved all stretch goals involving the backend.
+- Error free experience using git, ie losing data or mismanaged conflicts.
+- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards using Python back-end devlopment(I still do enjoy front-end)
 
 
 <br>
 
 ## Obstacles Faced and Lessons
 
-- Working with a partner in a completely time-zone to me presented some challenges in synchronising our schedules when outside of working hours(necessary towards the final days)
-- We exhausted our API call limit twice, meaning we had to set up a new email address to continue with work. This was due largely to the fact we were seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end
+- We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end.
+- We were unable to have as many prodcuts as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, I will design with pagination in mind to avoid fetching all prodcuts/data at once.
 - Too little time left towards the end of the project to work on and build a more visually impressive front-end. In future, wireframing will be conducted at an earlier stage (ours was done after the back-end build)
-- Poor internet connectivity made communication difficult at some critical moments during the proejct. I qucikly learned to adapt and communicate technical/debugging issues effectively via written communication in slack when Zoom was not available
+- Poor internet connectivity made communication difficult at critical moments during the proejct. I qucikly learned to adapt and communicate technical/debugging issues via written communication effectively in slack - when Zoom was not available
 
 <br>
 
@@ -471,4 +525,4 @@ The My Account page acted as the hub for users to view their order history, thei
 
 - Overall polishing of the design of the app across all components
 - Introduction of a chatbot using websockets to answer user queries
-- Redesign of certain controller to optimum levels
+- Creating a specific add_to_favourites function within the customer controller for better fucntionality
