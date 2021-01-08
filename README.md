@@ -4,6 +4,7 @@
 - Make mention of the add to favoruties issue being faced with controller
 - Maybe mention somewhere that it needs a redesign.its own function
 - Add Trello and user stories
+- Add insomnia screenshots of the JSON responses in the relevent locations
  -->
 # Rainforest E-Store (SEI Project 4)
 
