@@ -192,7 +192,7 @@ The complexity kicked in when it came to desiging the relationships. We designed
 
 From this basis, the models illustrated in the entity relationship diagram above were built.
 
-The M-M relation relationships the products shared with the order and customer models meant that join a table was required. <br>
+The M-M relation relationships the products shared with the order and customer models meant that a join table was required. <br>
 
 Here is an extract of the order-product join:
 
