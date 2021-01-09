@@ -94,7 +94,7 @@ This is the final design that was settled on, following several iterations.
 
 ### The API:
 
-[Rainforest API](https://rainforestapi.com/) was selected to fetch the data seeded into the product model in our backend. This API was chosen due to its rich catalogue with thousands of product scraped from Amazon. The responses contained datapoints such as price, description etc., necessary for our e-commerce website.
+The data seeded into the product model in our backend was fetched from [Rainforest API.](https://rainforestapi.com/) This API was chosen due to its rich catalogue with thousands of product scraped from Amazon. The responses contained datapoints such as price, description etc., necessary for our e-commerce website.
 
 In the seed file, the "get_product" function was created to format the data in a way that was compatible with the product model: 
 
