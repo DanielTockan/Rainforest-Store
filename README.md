@@ -257,7 +257,7 @@ class ProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
 
 An important aspect of Marshamllow was that it permits nested fields to be added to the schema. This feature allowed me to represent the table relationships defined as part of the models in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
 
-As I a result, I could decide if, when, and where in the app certain relationships fields would be visible. This was done by duplicaating the necessary schemas and adding nested fields as desired. 
+As a result, I could decide if, when, and where in the app certain relationships fields would be visible. This was done by duplicaating the necessary schemas and adding nested fields as desired. 
 
 An instance of this was the "Populated Product Schema":
 
