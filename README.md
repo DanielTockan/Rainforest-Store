@@ -90,7 +90,7 @@ Quick DBD was used to create the entity relationship diagrams, graphically descr
 
 ![Relationship-Diagrams](./resources/screenshots/entity_relationship_diagram.png)
 
-This is the final design that waa settled on, following several iterations.
+This is the final design that was settled on, following several iterations.
 
 ### The API:
 
