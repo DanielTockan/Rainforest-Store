@@ -507,7 +507,7 @@ The My Account page acted as the hub for users to view their order history, thei
 - Learned and gained confidence with a new programming language (Python and SQL) in a condensed time-frame
 - Achieved all stretch goals involving the backend.
 - Error free experience using git, ie losing data or mismanaged conflicts.
-- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards using Python back-end devlopment(I still do enjoy front-end)
+- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards writing in Python and back-end devlopment(I still do enjoy front-end)
 
 
 <br>
