@@ -150,7 +150,7 @@ Models were created for:
 - Products
 - Reviews
 
-The build of the relevent tables was relatively simple. This was verified, using TablePlus to ensure the expected columns were produced.
+The build of the relevent tables was relatively simple. This was verified, using TablePlus to ensure the expected table columns were produced.
 
 ```py
 class CustomerModel(db.Model, BaseModel):
