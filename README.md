@@ -281,7 +281,7 @@ The nested reviews field was not present in the Product Schema, but makes an app
 
 #### Controllers
 
-Flasks Blueprint pattern was used to create the routes for the project, dictating the logic that retireved data from the data and returned JSON objects to the front-end server. These routes are located within three controllers for the app.
+Flasks Blueprint pattern was used to create the routes for the project, dictating the logic that retireved data from the requests and returned JSON objects to the front-end server. These routes are located within three controllers for the app.
 - Customer controller
 - Order controller
 - Product controller
