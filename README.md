@@ -6,7 +6,7 @@
 
 The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user friendly interface. It was built using Flask, Python, a postgreSQL relational databse for the back-end,  and a React front-end. 
 
-The concept was inspired by the growing trend of retail businesses improving their online presence during this time, and presented a considerable increase in complexity in comparison to the projects covered within our classwork.
+The concept was inspired by the growing trend of retail businesses improving their online presence during this time. The project presented a considerable increase in complexity in comparison to the projects covered within our classwork.
 
 This was my final and most challenging project with GA, but also my most enjoyble. Despite only having being taught Python and SQL the week prior, I got very comfortable the languages and creating intricate table relationships.
 
