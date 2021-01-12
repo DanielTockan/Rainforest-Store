@@ -6,9 +6,9 @@
 
 The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user friendly interface. It was built using Flask, Python, a postgreSQL relational databse for the back-end,  and a React front-end. 
 
-The concept was inspired by the growing trend of retail businesses improving their online presence during this time. The project presented a considerable increase in complexity in comparison to the projects covered within our classwork.
+The concept was inspired by the growing trend of retail businesses improving their online presence during this time. The project presented a considerable increase in complexity compared to the projects covered within my classwork.
 
-This was my final and most challenging project with GA, but also my most enjoyble. Despite only having being taught Python and SQL the week prior, I got very comfortable with the languages and creating intricate table relationships.
+This paired project was my final and most challenging with GA, but also the most enjoyble. Despite only having being taught Python and SQL the week prior, I got very comfortable with the languages and creating intricate table relationships.
 
 Upon completion, the project was deployed via Heroku.
 
@@ -31,7 +31,7 @@ Upon completion, the project was deployed via Heroku.
 ## The Brief
 
 - Build a full-stack MERN web application, making my own front-end and back-end
-- Use a Python Flask API using  a Flask Rest Framework to serve my data from a PostgreSQL database
+- Use a Python Flask API within the Flask Rest Framework to serve my data from a PostgreSQL database
 - Be a complete product which means multiple relationships and CRUD functionality for the relevant models
 - Implement thoughtful user stories/wireframes, significant enough to clearly determine which features are core MVP and which are stretch goals
 - Be deployed online so its accessible publicly (using Heroku)
@@ -77,14 +77,14 @@ Upon completion, the project was deployed via Heroku.
 
 Once the concept for the application and our choice of API were finalised, the emphasis was placed on ensuring that the model design was robust. The motivation behind this was to avoid major code refactoring and debugging further down the line.
 
-Our key considerations were:
+The key considerations were:
 - What SQL tables/models were necessary
 - In some scenarios, whether an outright table or a table column would be optimal
 - What table relationships to create
 - What the MVP and stretch goals for the project were <!-- (via User Stories) -->
 - What pages were needed on the frontend, and how they would interact with the API
 
-Our model-centric planning process came at the detriment of other apsects of the app (which will be expanded on througout the document) but overall, set a solid foundation for us to proceed.
+The model-centric planning process came at the detriment of other apsects of the app (which will be expanded on througout the document) but overall, set a solid foundation for us to proceed.
 
 Quick DBD was used to create the entity relationship diagrams, graphically describing the relationships between the models:
 
@@ -94,7 +94,7 @@ This is the final design that was settled on, following several iterations.
 
 ### The API:
 
-The data seeded into the product model in our backend was fetched from [Rainforest API.](https://rainforestapi.com/) This API was chosen due to its rich catalogue with thousands of product scraped from Amazon. The responses contained datapoints such as price, description etc., necessary for our e-commerce website.
+The data seeded into the product model in the backend was fetched from [Rainforest API.](https://rainforestapi.com/) This API was chosen due to its rich catalogue with thousands of products scraped from Amazon. The responses contained datapoints such as price, description etc., necessary for my vision of the app.
 
 In the seed file, the "get_product" function was created to format the data in a way that was compatible with the product model: 
 
@@ -142,7 +142,7 @@ There was a constraint on the number of API calls we could make with our members
 
 #### Models
 
-As referenced in the planning section, the complexity of the relationships between our models meant that a lot of time was dedicated towards their design. This paid dividends when it came to the actual writing of the code as the desired output was achieved.
+As referenced in the planning section, the complexity of the relationships between the models meant that a lot of time was dedicated towards their design. This paid dividends when it came to the actual writing of the code as the desired output was achieved.
 
 Models were created for:
 - Customers
@@ -168,7 +168,7 @@ Each column witin the table  corresponds to a line of code within the "CustomerM
 
 ![TablePlus](./resources/screenshots/tableplus.png)
 
-The "id", "created_at" and "updated_at" columns, originate from the BaseModel, which was passed in as an arguement to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying the code.
+The "id", "created_at" and "updated_at" columns originate from the BaseModel, which was passed in as an arguement to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying the code.
 
 ```py
 class BaseModel: 
@@ -178,7 +178,7 @@ class BaseModel:
   updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 ```
 
-The complexity kicked in when it came to desiging the relationships. We designed the following for the stated reasons;
+The complexity kicked in when it came to desiging the relationships. The below were designed for the stated reasons;
 
 **Many to Many (M-M)** 
 - Order & Products <br> - When a customer checks out (places an order), they are able to buy many items (products) at a time, whether they be a variety of different products or a bulk buy of the same product. <br> - Provided there is enough stock, products are able to be purchased as part of many different orders. <br>
@@ -204,10 +204,9 @@ orders_products_join = db.Table('orders_products',
   db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True)
 ```
 
-It's purpose was to create a standalone table that stored a record for each of the combinations between the counterpart tables as a row. (READ NOTES AND ELABORATE ON WHY THIS WAS NECESSARY MORE EXPLICITYLY!!!) A lot of prior code and rationale was required for this to function.
+It's purpose was to create a standalone table that stored a record for each of the combinations between the counterpart tables as a row. A lot of prior code and rationale was required for this to function.
 
-Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both (READ NOTES AND EXPLICTY ELABORATE ON WHY!!! - IS IT RECURSION???)
-
+Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to avoid recursion problems from happening.
 
 ```py
 from app import db
@@ -231,15 +230,15 @@ class OrderModel(db.Model, BaseModel):
 ```
 *The code referencing the relationship can be found within the bottom line of the class.*
 
-I chose the order model as it possessed only one M-M relationship, whereas the product model had two. This choice made our code simpler and easier to read, however it would have worked either way. For this same reason, the imports were carried out in the customer model for the customer-product M-M relationship.
+The order model was chosen as it possessed only one M-M relationship, whereas the product model had two. This choice made the code simpler and easier to read, however it would have worked either way. For this same reason, the imports were carried out in the customer model for the customer-product M-M relationship.
 
 Within the same model, reference to the 1-M relationship between customers and orders can be found. This was enabled by adding a the customer ID number as a foreign key to the table and coding the relaitonship just beneath.
 
 #### Serializers
 
-Given that our Flask back-end was written in Python, as it stood, the models were not able to interact with our API (written in JSON) and React front-end. The serializers facilitated the communication between the disparate languages, acting as a form a translator. This was achieved using Marshmallow.
+Given that our Flask back-end was written in Python, as it stood, the models were not able to interact with our API (written in JSON) and React front-end. The serializers facilitated the communication between the disparate languages, acting as a form of translator. This was achieved using Marshmallow.
 
-Each of our models (including the base) had a corresponsing schema to which it was imported.
+Each of the models (including the base) had a corresponsing schema to which it was imported.
 This was no exception for the "Product Schema" below:
 
 ```py
@@ -255,9 +254,9 @@ class ProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 ```
 
-An important aspect of Marshamllow was that it permits nested fields to be added to the schema. This feature allowed me to represent the table relationships defined as part of the models in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
+An important aspect of Marshamllow was that it permits nested fields to be added to the schema. This feature allowed the table relationships defined as part of the models to be represented in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
 
-As a result, I could decide if, when, and where in the app certain relationships fields would be visible. This was done by duplicaating the necessary schemas and adding nested fields as desired. 
+As a result, I was able to decide if, when, and where in the app certain relationships fields would be visible. This was done by duplicating the necessary schemas and adding nested fields as desired. 
 
 An instance of this was the "Populated Product Schema":
 
@@ -276,7 +275,7 @@ class PopulatedProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   reviews = fields.Nested('ReviewSchema', many=True)
 ```
 
-The nested reviews field was not present in the Product Schema, but makes an appearance here. The added benefit of this will be explaied within the controllers section.
+The nested reviews field was not present in the Product Schema, but makes an appearance here. The added benefit of this will be explained within the controllers section.
 
 
 #### Controllers
@@ -297,7 +296,7 @@ product_schema = ProductSchema()
 populated_product = PopulatedProductSchema()
 ```
 
-Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This gave me a great level of control of the JSON object datapoints that were returned from each route. I could decide which schema to use based on which specific datapoints were necessary for that part of the user journey.
+Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This provided a great level of control of the JSON object datapoints that could be returned from each route. Decisions on the correcy schema to use could be made based on the specific datapoints necessary for that part of the user journey.
 
 This was demonstrated with the "get_products" and the "get_single_product" functions:
 
@@ -401,7 +400,7 @@ def add_to_cart(product_id):
     
 ```
 
-There "current_order" field within the order model has a data type of Boolean. When True, this denotes that this is the order currently being executed and points to the corresponding order ID. This line is essential in adding items to the correct order when adding to cart.
+The "current_order" field within the order model has a data type of Boolean. When True, this denoted the order currently being executed and points to the corresponding order ID. This line was essential in adding items to the correct order when adding to cart.
 
 
 ```py
@@ -421,7 +420,7 @@ class OrderModel(db.Model, BaseModel):
 
 ### Front-end:
 
-The interface and flow of the app was designed to mimic the functionality of a site like Amazon. We decided to include:
+The interface and flow of the app was designed to mimic the functionality of a site like Amazon. It included:
 - A home page, displaying the catalogue of products
 - An individual product page
 - My Account page
@@ -432,7 +431,7 @@ The interface and flow of the app was designed to mimic the functionality of a s
 
 ![Home Page](./resources/screenshots/homepage.png)
 
-The goods sold on our website were rendered on our page by mapping the products seeded from our database into cards on a page, like below:
+The goods sold on the website were rendered on the page by mapping the products seeded from the database into cards on a page, like below:
 
 ```js
 {filterProductsResults().map((product, index) => {
@@ -515,9 +514,9 @@ The My Account page acted as the hub for users to view their order history, thei
 ## Obstacles Faced and Lessons
 
 - We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end.
-- We were unable to have as many prodcuts as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, I will design with pagination in mind to avoid fetching all prodcuts/data at once.
+- We were unable to have as many prodcuts as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all prodcuts/data at once.
 - Too little time left towards the end of the project to work on and build a more visually impressive front-end. In future, wireframing will be conducted at an earlier stage (ours was done after the back-end build)
-- Poor internet connectivity made communication difficult at critical moments during the proejct. I qucikly learned to adapt and communicate technical/debugging issues via written communication effectively in slack - when Zoom was not available
+- Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues via written communication effectively in slack - when Zoom was not available
 
 <br>
 
