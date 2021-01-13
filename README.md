@@ -30,7 +30,6 @@ Upon completion, the project was deployed via Heroku.
 
 ## The Brief
 
-- Build a full-stack MERN web application, making my own front-end and back-end
 - Use a Python Flask API within the Flask Rest Framework to serve my data from a PostgreSQL database
 - Be a complete product which means multiple relationships and CRUD functionality for the relevant models
 - Implement thoughtful user stories/wireframes, significant enough to clearly determine which features are core MVP and which are stretch goals
@@ -136,7 +135,7 @@ The generator below, looped through each of the name and url arguements in the "
   [get_product(name, url) for name, url in bestsellers_list]
 ```
 
-There was a constraint on the number of API calls we could make with our membership type, as a result all but one category were commented out for development with the intention of using all categories for deployment.
+There was a constraint on the number of API calls we could make with our membership type, as a result all but one category was commented out for development with the intention of using all categories for deployment.
 
 ### Back-end:
 
@@ -181,9 +180,9 @@ class BaseModel:
 The complexity kicked in when it came to desiging the relationships. The below were designed for the stated reasons;
 
 **Many to Many (M-M)** 
-- Order & Products <br> - When a customer checks out (places an order), they are able to buy many items (products) at a time, whether they be a variety of different products or a bulk buy of the same product. <br> - Provided there is enough stock, products are able to be purchased as part of many different orders. <br>
+- Order & Products <br> - When a customer checks out (places an order), they are able to buy many items (products) at a time, whether they be a variety of different products or a bulk buy of the same product <br> - Provided there is enough stock, products are able to be purchased as part of many different orders <br>
 
-- Customers & Products <br> - A customer is able to save more than one item to their favourites/wish-list. <br> - Popular items can be added to the wish-lists/favourited by many customers.
+- Customers & Products <br> - A customer is able to save more than one item to their favourites/wish-list <br> - Popular items can be added to the wish-lists/favourited by many customers
 
 **One to Many (1-M)** 
 - Products to Reviews - A product in the store can have many customer reviews.
@@ -192,7 +191,7 @@ The complexity kicked in when it came to desiging the relationships. The below w
 
 From this basis, the models illustrated in the entity relationship diagram above were built.
 
-The M-M relation relationships the products shared with the order and customer models meant that a join table was required. <br>
+The M-M relationships that the products shared with the order and customer models meant that a join table was required. <br>
 
 Here is an extract of the order-product join:
 
@@ -206,7 +205,7 @@ orders_products_join = db.Table('orders_products',
 
 It's purpose was to create a standalone table that stored a record for each of the combinations between the counterpart tables as a row. A lot of prior code and rationale was required for this to function.
 
-Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to avoid recursion problems from happening.
+Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to prevent recursion problems from happening.
 
 ```py
 from app import db
@@ -296,11 +295,11 @@ product_schema = ProductSchema()
 populated_product = PopulatedProductSchema()
 ```
 
-Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This provided a great level of control of the JSON object datapoints that could be returned from each route. Decisions on the correcy schema to use could be made based on the specific datapoints necessary for that part of the user journey.
+Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This provided a great level of control of the JSON object datapoints that could be returned from each route. Decisions on the correct schema to use could be made based on the specific datapoints necessary for that part of the user journey.
 
 This was demonstrated with the "get_products" and the "get_single_product" functions:
 
-The former function was built with the purpose of fetching the data for all products that would be rendered on a homepage style compoonent.
+The former function was built with the purpose of fetching the data for all products that would be rendered on a homepage style component.
 
 ```py
 @router.route('/products', methods=['GET'])
@@ -324,7 +323,7 @@ def get_single_product(id):
 ```
 ![Get single product](./resources/screenshots/get_single_product.png)
 
-Given this context, it was deemed unnecessary for the populated prodcuts schema (containing the nested review field) to be instantiated for the route returning all products, but essential for the individual product page.
+Given this context, it was deemed unnecessary for the populated products schema (containing the nested review field) to be instantiated for the route returning all products, but essential for the individual product page.
 
 #### Adding an item to the cart:
 
@@ -476,7 +475,7 @@ Once items are added to the cart, they land here.
 
 Customers are able to keep track of the items they had added and keep a running total of the cost.
 
-CRUD funcitonality was implemented into the page with the options to remove items and finalize the order granted. Upon finalising an order, a put request made updateting the current users order history.
+CRUD funcitonality was implemented into the page with the options to remove items and finalize the order granted. Upon finalising an order, a PUT request is made updating the current users order history.
 
 ```js
   function handleFinalize() {
@@ -497,15 +496,15 @@ CRUD funcitonality was implemented into the page with the options to remove item
 
 ![Account](./resources/screenshots/account_page.png)
 
-The My Account page acted as the hub for users to view their order history, their favourites and update their credentials. Each have their own individual pages that can be accessed by clicking on the links.
+The My Account page acted as the hub for users to view their order history, their favourites and update their credentials. Each have their own individual pages that can be accessed by clicking on the cards.
 
 <br>
 
 ## Triumphs
 
 - Learned and gained confidence with a new programming language (Python and SQL) in a condensed time-frame
-- Achieved all stretch goals involving the backend.
-- Error free experience using git, ie losing data or mismanaged conflicts.
+- Achieved all stretch goals involving the backend
+- Error free experience using git, ie losing data or mismanaged conflicts
 - Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards writing in Python and back-end devlopment(I still do enjoy front-end)
 
 
@@ -513,10 +512,10 @@ The My Account page acted as the hub for users to view their order history, thei
 
 ## Obstacles Faced and Lessons
 
-- We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end.
-- We were unable to have as many prodcuts as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all prodcuts/data at once.
+- We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end
+- We were unable to have as many prodcuts as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all prodcuts/data at once
 - Too little time left towards the end of the project to work on and build a more visually impressive front-end. In future, wireframing will be conducted at an earlier stage (ours was done after the back-end build)
-- Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues via written communication effectively in slack - when Zoom was not available
+- Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues via written communication effectively - in slack when Zoom was not available
 
 <br>
 
