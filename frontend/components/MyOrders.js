@@ -27,6 +27,7 @@ const MyOrders = () => {
   return <div className="my-orders">
     <section className="list">
       <div className="list-container">
+        <h1 className="text-warning">My order history</h1>
         <div>{
           orderData.map((orderData, index) => (
             <div className="tracker" key={index}>
