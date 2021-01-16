@@ -240,8 +240,14 @@ html, body {
 
 .products-page {
   
-  padding-top: 100px;
+  padding-top: 50px;
   margin-left: 100px;
+
+  input {
+    margin-bottom: 30px;
+    min-width: 310px;
+    margin-left: 15px;
+  }
   
 
   #product-image {
@@ -264,6 +270,7 @@ html, body {
 
   .card-title {
     height: 57px;
+    width: 278px;
   }
 }
 

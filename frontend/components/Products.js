@@ -74,8 +74,20 @@ const Products = (props) => {
 
 
   return <div className="products-page">
+
+    <section id="searchbar">
+      <div>
+        <input type="text" placeholder="Search products..." 
+          name="searchbar"
+          value={search.searchbar}
+          onChange={handleSearch}
+        />
+      </div>
+    </section>
+
     {filterProductsResults().map((product, index) => {
       return <div className="products-card" key={index}>
+
         <section>
           <div className="col-sm-4">
             <div className="card" id="card-spacing" >
