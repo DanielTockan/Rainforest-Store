@@ -28,7 +28,7 @@ const MySavedItems = () => {
 
   return <div className="saved-items">
     <div className="list-container">
-      <h1 className="text-warning font-weight-bold">Your favourites</h1>
+      <h1 className="font-weight-bold">Your favourites</h1>
       <div>{
         productData.map((product, index) => (
           <div className="tracker" key={index}>

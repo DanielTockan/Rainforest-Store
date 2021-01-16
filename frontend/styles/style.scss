@@ -90,6 +90,13 @@ html, body {
 
   padding-top: 100px;
 
+  h1 {
+    font-size: 25px;
+    text-decoration: underline;
+    text-align: center;
+    color: rgb(255, 111, 236);
+  }
+
   .list {
   display: flex;
   flex-direction: column;
@@ -307,6 +314,12 @@ figure {
 
 .cart-items {
 
+  h1 {
+    font-size: 35px;
+    text-decoration: underline;
+    text-align: center;
+  }
+
   display: flex;
   justify-content: center;
 
@@ -407,5 +420,30 @@ figure {
 
   .top-space {
     margin-top: 20px;
+  }
+}
+
+.empty-cart-page {
+  
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  h5 {
+    font-size: 20px;
+    font-weight: bolder;
+  }
+
+  p {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  img {
+    height: auto;
+    width: 300px;
+  }
+  .card {
+    max-width: 300px;
   }
 }

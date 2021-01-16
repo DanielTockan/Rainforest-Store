@@ -45,13 +45,15 @@ const MyCart = (props) => {
   }
 
   if (!cart[0]) {
-    return <div id="empty-cart-page" className="section">
-      <div class="card">
-        <img class="card-img-top" src="https://www.clipartmax.com/png/middle/221-2218547_empty-shopping-cart-icon.png" alt="Card image cap" />
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+    return <div className="section empty-cart-page">
+      <div className="card">
+        <img className="card-img-top" src="https://imgur.com/TvRgXnw.png" alt="Card image cap" />
+        <div className="card-body">
+          <h5 className="card-title">Your basket is empty</h5>
+          <p className="card-text">It doesn't appear like you've bought anything. Let's change that!</p>
+          <Link to={`/`}>
+            <a href="#" className="btn btn-primary">Return to the store</a>
+          </Link>
         </div>
       </div>
     </div>
@@ -89,8 +91,8 @@ const MyCart = (props) => {
       }</div>
     </div>
     <div>
-      <h1 className="text-white font-weight-bold" >--   TOTAL ORDER    --</h1>
-      <h1 className="text-success font-weight-bold sub-total">£{cart[0].total_amount.toFixed(2)}</h1>
+      <h2 className="text-white font-weight-bold" >--   TOTAL ORDER    --</h2>
+      <h2 className="text-success font-weight-bold sub-total">£{cart[0].total_amount.toFixed(2)}</h2>
       <button className="button is-dark top-space"
         onClick={handleFinalize}>
         Finalize Order
