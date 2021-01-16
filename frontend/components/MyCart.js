@@ -24,9 +24,7 @@ const MyCart = (props) => {
 
   function handleRemoveItem(id) {
     console.log(id)
-    axios.delete(`/api/products/${id}/delete-from-cart`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    axios.delete(`/api/products/${id}/delete-from-cart`)
       .then(resp => {
         axios.get(`/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -34,6 +32,7 @@ const MyCart = (props) => {
           .then(resp => {
             updateCart(resp.data[0])
           })
+          .reload()
       })
   }
 

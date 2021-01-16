@@ -122,7 +122,6 @@ def add_to_cart(product_id):
     
 
 @router.route('/products/<int:id>/delete-from-cart', methods=['DELETE'])
-@secure_route
 def delete_from_cart(id):
   single_product = ProductModel.query.get(id)
   single_product_data = product_schema.dump(single_product)
@@ -136,7 +135,7 @@ def delete_from_cart(id):
     instance=current_order,
     partial=True
   )
-  item.remove()
+  item.save()
 
   current_order = OrderModel.query.filter_by(current_order=True).first()
   current_order_data = order_schema.dump(current_order)
