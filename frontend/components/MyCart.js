@@ -24,7 +24,9 @@ const MyCart = (props) => {
 
   function handleRemoveItem(id) {
     console.log(id)
-    axios.delete(`/api/${id}/delete-from-cart`)
+    axios.delete(`/api/products/${id}/delete-from-cart`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(resp => {
         axios.get(`/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -80,7 +82,7 @@ const MyCart = (props) => {
                 <div className="list-text">{product.symbol} {product.price.toFixed(2)}</div>
                 <div className="column">
                   <button className="button is-warning"
-                    onClick={handleRemoveItem(product.id)}>
+                    onClick={ () => handleRemoveItem(product.id)}>
                     Remove Item
                   </button>
                 </div>
