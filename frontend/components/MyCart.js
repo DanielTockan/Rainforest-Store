@@ -32,7 +32,7 @@ const MyCart = (props) => {
           .then(resp => {
             updateCart(resp.data[0])
           })
-          location.reload()
+        location.reload()
       })
   }
 
@@ -81,7 +81,7 @@ const MyCart = (props) => {
                 <div className="list-text">{product.symbol} {product.price.toFixed(2)}</div>
                 <div className="column">
                   <button className="button is-warning"
-                    onClick={ () => handleRemoveItem(product.id)}>
+                    onClick={() => handleRemoveItem(product.id)}>
                     Remove Item
                   </button>
                 </div>
