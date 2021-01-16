@@ -1,8 +1,11 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faKiwiBird } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = (props) => {
 
+  const bird = <FontAwesomeIcon icon={faKiwiBird} size="1x" />
   const token = localStorage.getItem('token')
   if (token) {
     const parsedToken = JSON.parse(atob(token.split('.')[1]))
@@ -20,7 +23,7 @@ const Navbar = (props) => {
   return <div className="navbar-component">
     <nav className="navbar navbar-expand-md navbar-dark nav-background fixed-top">
 
-      <Link to="/" className="navbar-brand nav-brand text-warning">RainForest Store</Link>
+      <Link to="/" className="navbar-brand nav-brand text-warning"><p>RainForest Store {bird}</p></Link>
 
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
         <span className="navbar-toggler-icon"></span>
