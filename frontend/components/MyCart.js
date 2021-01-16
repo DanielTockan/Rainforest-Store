@@ -32,7 +32,7 @@ const MyCart = (props) => {
           .then(resp => {
             updateCart(resp.data[0])
           })
-          .reload()
+          location.reload()
       })
   }
 
@@ -45,7 +45,7 @@ const MyCart = (props) => {
       })
   }
 
-  if (!cart[0]) {
+  if ((!cart[0]) || (cart[0].total_amount.toFixed(2) < 1)) {
     return <div className="section empty-cart-page">
       <div className="card">
         <img className="card-img-top" src="https://imgur.com/TvRgXnw.png" alt="Card image cap" />
