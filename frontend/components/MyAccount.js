@@ -22,7 +22,7 @@ const SingleAccount = (props) => {
   }, [])
 
 
-  return <div className="section background-image-my-account">
+  return <div className="my-account">
     <h1 className="text-warning title-text-myaccount">Welcome back {formData.username}</h1>
     <div className="row">
       <div className="col-sm-6">

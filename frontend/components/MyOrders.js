@@ -24,18 +24,21 @@ const MyOrders = () => {
   console.log(typeof (orderData))
   console.log(orderData)
 
-  return <div>
+  return <div className="my-orders">
     <section className="list">
       <div className="list-container">
         <div>{
           orderData.map((orderData, index) => (
             <div className="tracker" key={index}>
-              <Link to={`/products/${orderData.id}`}><div className="list-row" >
+              <Link to=""><div className="list-row" >
                 <div className="order">
                   <div className="order-details">
                     <div className="volume-3 list-text" >Order ID: {orderData.id}</div>
                     <div className="volume-3 list-text" >Status: {orderData.order_status}</div>
-                    <div className="list-price list-text">£ {orderData.total_amount}</div>
+                    <div className="list-text">£ {orderData.total_amount.toFixed(2)}</div>
+                  </div>
+                  <div className="order-products">
+                    <div className="volume-3 list-text">Products:</div>
                   </div>
                 </div>
               </div></Link>

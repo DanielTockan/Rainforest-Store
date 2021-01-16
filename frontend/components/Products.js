@@ -72,142 +72,36 @@ const Products = (props) => {
     return filteredProducts
   }
 
-  // if(!products[0].image){
-  //   return <h1>Loading</h1>
-  // }
 
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  }
-
-  const carouselImages = [
-
-  ]
-
-  return <div id="products-page" className="section">
-    <div id="carousel" className="section">
-      {/* <div className="container">
-        <Carousel
-          swipeable={true}
-          draggable={true}
-          showDots={true}
-          responsive={responsive}
-          ssr={true} // means to render carousel on server-side.
-          infinite={true}
-          // autoPlay={props.deviceType !== "mobile" ? true : false}
-          autoPlaySpeed={500}
-          keyBoardControl={true}
-          customTransition="all .5"
-          transitionDuration={1000}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          deviceType={props.deviceType}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          <div>
-            <p onClick={handleSearch}
-          value="Amazon Devices & Accessories"
-          name="category">Amazon Devices & Accessories</p>
-          </div>
-          <div>Item 2</div>
-          <div>Item 3</div>
-          <div>Item 4</div>
-          {categories.map((content, index)=> {
-            return <div key={index}>{content}</div>
-          })}
-        </Carousel>
-      </div> */}
-    </div>
-    <div className="container">
-      <div className="columns">
-        <div className="column">
-          <input type="text" placeholder="Search products..." className="input"
-            name="searchbar"
-            value={search.searchbar}
-            onChange={handleSearch}
-          />
-        </div>
-
-        <div className="column">
-          <div className={`dropdown ${dropdownIsActive ? "is-active" : ""}`}>
-            <div className="dropdown-trigger">
-              <button className="button" aria-haspopup="true"
-                onClick={() => {
-                  filterCategories()
-                  setDropdownIsActive(!dropdownIsActive)
-                }}>
-                <span>Categories</span>
-              </button>
-            </div>
-            <div className="dropdown-menu" $ id="dropdown-menu" role="menu">
-              <div className="dropdown-content pl-2">
-                {categories.map((content, index) => {
-                  return <div className="mt-1" key={index}>
-                    <button
-                      name="category"
-                      value={content}
-                      onClick={handleSearch}>
-                    </button>
-                  </div>
-                })}
+  return <div className="products-page">
+    {filterProductsResults().map((product, index) => {
+      return <div className="products-card" key={index}>
+        <section>
+          <div className="col-sm-4">
+            <div className="card" id="card-spacing" >
+              <Link to={`/products/${product.id}`} className="card-image">
+                <img className="card-img-top" id="product-image" src={product.image} alt="Card image cap" />
+              </Link>
+              <div className="card-body">
+                <h6 className="card-title">{product.title}</h6>
+                <p className="card-text">{product.symbol}{product.price.toFixed(2)}</p>
+                <p><Rating
+                  name="hover-feedback"
+                  value={product.rating}
+                  precision={0.5}
+                /></p>
+                <button
+                  value={product.id}
+                  onClick={event => addToCart(event.target.value)}
+                  className="btn btn-danger">
+                  Add to cart
+                </button>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
-
-    <div className="section">
-      <div className="container">
-        <div className="columns is-multiline is-mobile">
-          {filterProductsResults().map((product, index) => {
-            return <div key={index} className="column is-one-third-desktop is-half-tablet is-half-mobile">
-              <div className="card">
-                <Link to={`/products/${product.id}`} className="card-image">
-                  <figure className="image is-4by3">
-                    <img src={product.image} alt={product.title} />
-                  </figure>
-                </Link>
-                <div className="card-content">
-                  <div className="media">
-                    <div className="media-content has-text-centered">
-                      <p>{product.title}</p>
-                      <p className="price">{product.symbol}{product.price}</p>
-                      <p><Rating
-                        name="hover-feedback"
-                        value={product.rating}
-                        precision={0.5}
-                      /></p>
-                      <button value={product.id}
-                        onClick={event => addToCart(event.target.value)}
-                        className="button is-warning">Add to Cart
-                       </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          })}
-        </div>
-      </div>
-    </div>
+    })}
   </div>
 }
 

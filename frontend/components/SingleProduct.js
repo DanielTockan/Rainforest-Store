@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { getUserId } from '../lib/auth'
-import { addToCart } from '../lib/addToCart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import Rating from '@material-ui/lab/Rating'
+import 'bulma'
 
 
 const SingleProduct = (props) => {
@@ -14,6 +14,7 @@ const SingleProduct = (props) => {
   const [review, updateReview] = useState('')
   const [reviewField, updateReviewField] = useState('none')
   const [customer, updateCustomer] = useState('')
+  const [loading, updateLoading] = useState([])
 
   const token = localStorage.getItem('token')
   const userId = getUserId(token)
@@ -23,6 +24,7 @@ const SingleProduct = (props) => {
     axios.get(`/api/products/${productId}`)
       .then(resp => {
         updateSingleProduct(resp.data)
+        updateLoading(false)
       })
   }, [])
 
@@ -34,7 +36,7 @@ const SingleProduct = (props) => {
         updateCustomer(resp.data)
         for (let i = 0; i < resp.data.products.length; i++) {
           if (resp.data.products[i].id === parseInt(productId)) {
-            updateFavourite('blue')
+            updateFavourite('red')
           }
         }
       })
@@ -73,28 +75,30 @@ const SingleProduct = (props) => {
   }
 
   function handleFavourite() {
-    if (favourite === 'blue') {
+    if (favourite === 'red') {
       return updateFavourite('')
     }
     axios.put(`/api/customers/${userId}`, { products: [{ id: productId }] }, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    updateFavourite('blue')
+    updateFavourite('red')
   }
+
+  if (loading) return <h1>LOADING...</h1>
 
   return <section id="single-product" className="section">
     <div className="container">
       <div id="product-information" className="columns">
-        <div className="centered column">
-          <figure className="image is-rounded">
-            <img className="is-rounded" src={singleProduct.image} alt="" />
+        <div className="centered column is-flex is-justify-content-flex-end">
+          <figure >
+            <img className="is-rounded mr-6" src={singleProduct.image} alt="" />
           </figure>
         </div>
-        <div className="column">
-          <h1 className="title is-4 ">{singleProduct.title}</h1>
+        <div className="column has-text-white mr-6">
+          <h1 className="title is-4 has-text-white">{singleProduct.title}</h1>
           <div id="price-info" className="columns">
             <div className="column">
-              <p className="price subtitle is-6">{singleProduct.symbol}{singleProduct.price}</p>
+              <p className="price subtitle is-6 has-text-white">{singleProduct.symbol}{singleProduct.price.toFixed(2)}</p>
             </div>
             <div className="column">
               <p><Rating
@@ -108,7 +112,7 @@ const SingleProduct = (props) => {
               {userId && <FontAwesomeIcon onClick={handleFavourite} icon={faHeart} style={{ color: `${favourite}` }} />}
             </div>
           </div>
-          <ol>
+          <ol className="s-p-description">
             <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, est.</li>
             <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, voluptas?</li>
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, nesciunt deserunt quas maiores laboriosam porro facere ratione possimus cupiditate minus quisquam ducimus quod assumenda, ab corporis numquam quam quibusdam rerum!</li>
@@ -116,13 +120,13 @@ const SingleProduct = (props) => {
           <div>
             <button value={singleProduct.id}
               onClick={event => addToCart(event.target.value)}
-              className="button is-warning">Add to Cart
+              className="button is-warning s-p-cart">Add to Cart
             </button>
             <a href="#reviews">
               <button className="button"
                 onClick={handleReview}>
                 Add Review
-            </button>
+              </button>
             </a>
           </div>
         </div>
@@ -130,11 +134,11 @@ const SingleProduct = (props) => {
     </div>
     <div className="section">
       <div id="reviews" className="container">
-        <div className="columns is-multiline is-mobile">
+        <div className="columns is-multiline is-mobile is-flex is-justify-content-space-around">
           {singleProduct.reviews && singleProduct.reviews.map((review, key) => {
             return <div key={key} className="column is-one-third-desktop is-hald-tablet is-half-mobile">
               <div className="card">
-                <div className="card-content">
+                <div className="card-content review-box">
                   <div className="media">
                     <div className="media-content">
                       <p>@{review.customer.username}</p>
@@ -156,7 +160,7 @@ const SingleProduct = (props) => {
               onChange={handleReview} />
           </div>
           <div className="control">
-            <button className=" button is-primary"
+            <button className=" button is-dark"
               onClick={submitReview}>Submit</button>
           </div>
         </div>

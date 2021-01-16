@@ -26,34 +26,33 @@ const MySavedItems = () => {
   console.log(typeof (productData))
   console.log(productData)
 
-  return <div>
-    <section id="padding-top" className="list">
-      <div className="list-container">
-        <div>{
-          productData.map((product, index) => (
-            <div className="tracker" key={index}>
-              <Link to={`/products/${product.id}`} ><div className="list-row" >
-                <div className="product">
-                  <div className="list-details">
-                    <div className="volume-1 title-text"> <img src={product.image} alt="" /></div>
-                  </div>
-                  <div className="volume-2 title-text">{product.title}</div>
-                  <div className="volume-3 category-text" >{product.category}</div>
-                  <div className="list-text">{product.symbol} {product.price}</div>
-                  <div className="list-text-2">{product.rating}</div>
+  return <div className="saved-items">
+    <div className="list-container">
+      <h1 className="text-warning font-weight-bold">Your favourites</h1>
+      <div>{
+        productData.map((product, index) => (
+          <div className="tracker" key={index}>
+            <Link to={`/products/${product.id}`} ><div className="list-row" >
+              <div className="product">
+                <div className="list-details">
+                  <div className="volume-1 title-text"> <img src={product.image} alt="" /></div>
                 </div>
-                <Rating
-                  name="hover-feedback"
-                  value={product.rating}
-                  precision={0.5}
-                />
+                <div className="volume-2 title-text">{product.title}</div>
+                <div className="volume-3 category-text" >{product.category}</div>
+                <div className="list-text">{product.symbol} {product.price.toFixed(2)}</div>
+                <div className="list-text-2">{product.rating}</div>
               </div>
-              </Link>
+              <Rating
+                name="hover-feedback"
+                value={product.rating}
+                precision={0.5}
+              />
             </div>
-          ))
-        }</div>
-      </div>
-    </section>
+            </Link>
+          </div>
+        ))
+      }</div>
+    </div>
   </div>
 }
 

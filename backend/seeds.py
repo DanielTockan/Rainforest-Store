@@ -46,14 +46,14 @@ with app.app_context():
     # ("Business, Industry & Science", "https://www.amazon.co.uk/Best-Sellers-Business-Industry-Science/zgbs/industrial/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("CD's and Vinyl", "https://www.amazon.co.uk/Best-Sellers-Music/zgbs/music/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("Clothing", "https://www.amazon.co.uk/Best-Sellers-Clothing/zgbs/clothing/ref=zg_bs_nav_0/261-3310178-9376341"),
-    ("Computers and Accessories", "https://www.amazon.co.uk/Best-Sellers-Computers-Accessories/zgbs/computers/ref=zg_bs_nav_0/261-3310178-9376341")
+    # ("Computers and Accessories", "https://www.amazon.co.uk/Best-Sellers-Computers-Accessories/zgbs/computers/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("DIY & Tools", "https://www.amazon.co.uk/Best-Sellers-DIY-Tools/zgbs/diy/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("DVD & Blu-ray", "https://www.amazon.co.uk/Best-Sellers-DVD-Blu-ray/zgbs/dvd/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("Digital Music", "https://www.amazon.co.uk/Best-Sellers-MP3-Downloads/zgbs/dmusic/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("Electronics & Photo", "https://www.amazon.co.uk/Best-Sellers-Electronics/zgbs/electronics/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("Garden & Outdoor", "https://www.amazon.co.uk/Best-Sellers-Garden-Outdoors/zgbs/outdoors/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("GIft Cards", "https://www.amazon.co.uk/Best-Sellers-Gift-Cards-Top-Up/zgbs/gift-cards/ref=zg_bs_nav_0/261-3310178-9376341"),
-    # ("Grocery", "https://www.amazon.co.uk/Best-Sellers-Grocery/zgbs/grocery/ref=zg_bs_nav_0/261-3310178-9376341"),
+    ("Grocery", "https://www.amazon.co.uk/Best-Sellers-Grocery/zgbs/grocery/ref=zg_bs_nav_0/261-3310178-9376341")
     # ("Handmade Products", "https://www.amazon.co.uk/Best-Sellers-Handmade/zgbs/handmade/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("Health & Personal Care", "https://www.amazon.co.uk/Best-Sellers-Health-Personal-Care/zgbs/drugstore/ref=zg_bs_nav_0/261-3310178-9376341"),
     # ("Home and Kitchen", "https://www.amazon.co.uk/Best-Sellers-Kitchen-Home/zgbs/kitchen/ref=zg_bs_nav_0/261-3310178-9376341"),
@@ -75,17 +75,6 @@ with app.app_context():
 
   [get_product(name, url) for name, url in bestsellers_list]
 
-  # product_1 = ProductModel(
-  #   title = 'test',
-  #   rating = 4.6,
-  #   category = 'test',
-  #   price = 3.99,
-  #   currency = 'GBP',
-  #   symbol = '$',
-  #   image = 'dlkjfal'
-  # )
-  # # product_1.save()
-
   daniel = CustomerModel(
     username="Daniel",
     email="daniel@daniel.com",
@@ -102,23 +91,23 @@ with app.app_context():
   )
   # mitty.save()
 
-  order_1 = OrderModel(
-    total_amount=100,
-    order_status='Confirmed',
-    # products=[product_1],
-    customer=daniel,
-    current_order=False
-  )
+  # order_1 = OrderModel(
+  #   total_amount=100,
+  #   order_status='Confirmed',
+  #   # products=[product_1],
+  #   customer=daniel,
+  #   current_order=False
+  # )
 
-  order_2 = OrderModel(
-    total_amount=200,
-    order_status='In Progress',
-    # products=[product_1],
-    customer=daniel,
-    current_order=True
-  )
+  # order_2 = OrderModel(
+  #   total_amount=200,
+  #   order_status='In Progress',
+  #   # products=[product_1],
+  #   customer=daniel,
+  #   current_order=True
+  # )
 
-  order_1.save()
+  # order_1.save()
 
   review1 = ReviewModel(
     content='This product is crazyyyyy',
