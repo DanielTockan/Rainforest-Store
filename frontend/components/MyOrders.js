@@ -36,10 +36,7 @@ const MyOrders = () => {
                   <div className="order-details">
                     <div className="volume-3 list-text" >Order ID: {orderData.id}</div>
                     <div className="volume-3 list-text" >Status: {orderData.order_status}</div>
-                    <div className="list-text">£ {orderData.total_amount.toFixed(2)}</div>
-                  </div>
-                  <div className="order-products">
-                    <div className="volume-3 list-text">Products:</div>
+                    <div className="list-text">Total amount: £ {orderData.total_amount.toFixed(2)}</div>
                   </div>
                 </div>
               </div></Link>

@@ -55,7 +55,7 @@ const MyCart = (props) => {
 
   return <div className="cart-items">
     <div className="list-container">
-      <h1 className="text-warning font-weight-bold">Your Cart</h1>
+      <h1 className="text-warning">My Cart</h1>
       <div>{
         cart[0].products.map((product, index) => (
           <div className="tracker" key={index}>

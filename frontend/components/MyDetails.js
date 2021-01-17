@@ -79,55 +79,57 @@ const MyDetails = (props) => {
   console.log(token)
 
 
-  return <div className="container container-custom">
+  return <div className="register-page">
+    <div className="container container-custom">
 
-    <form onSubmit={handleUpdate}>
-      <div className="form-group">
-        <input
-          className="form-control"
-          placeholder="Username"
-          type="text"
-          onChange={handleChange}
-          value={formData.username}
-          name="username"
-          required
+      <form
+        onSubmit={handleUpdate}>
+        <h1 className="" >Update your username here...</h1>
+        <h3 className="text-danger font-weight-bold">Remember to input your email adress and password so that we know it is you.</h3>
+        <div className="form-group">
+          <input
+            type="text"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.username}
+            placeholder="Username"
+            name="username"
+            required
+          />
+        </div>
 
-        />
+        <div className="form-group">
+          <input
+            type="email"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.email}
+            placeholder="Email"
+            name="email"
+            required
+          />
+        </div>
 
-      </div>
+        <div className="form-group">
+          <input
+            type="password"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.password}
+            placeholder="Password"
+            name="password"
+            required
+          />
+          {/* 
+    {errors.password && <p id="error" style={{ color: 'red' }}>
+      {`There was a problem with your ${errors.password.path}`}
+    </p>} */}
 
-      <div className="form-group">
-        <input
-          className="form-control"
-          placeholder="Email"
-          type="text"
-          onChange={handleChange}
-          value={formData.email}
-          name="email"
-          required
+        </div>
+        <button className="btn btn-success wide">Submit</button>
+      </form>
 
-        />
-
-      </div>
-
-      <div className="form-group">
-        <input
-          className="form-control"
-          placeholder="Password"
-          type="Password"
-          onChange={handleChange}
-          value={formData.password}
-          name="password"
-          required
-
-        />
-
-      </div>
-
-      <div className="form-group">
-        <button className="btn btn-primary">Submit Changes</button>
-      </div>
-    </form>
+    </div>
 
   </div>
 }

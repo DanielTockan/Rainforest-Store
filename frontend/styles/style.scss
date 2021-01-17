@@ -93,7 +93,6 @@ html, body {
   h1 {
     font-size: 35px;
     text-decoration: underline;
-    text-align: center;
     color: rgb(255, 111, 236);
   }
 
@@ -195,7 +194,6 @@ html, body {
   h1 {
     font-size: 35px;
     text-decoration: underline;
-    text-align: center;
     color: rgb(255, 111, 236);
   }
   
@@ -224,7 +222,7 @@ html, body {
       justify-items: start;
       align-items: center;
       height: 120px;
-      width: 900px;
+      width: 600px;
       border-bottom: 2px solid rgb(0, 33, 66);
       color: white;
     }
@@ -249,7 +247,7 @@ html, body {
 
     .list-text {
       font-size: 18px;
-      width: 160px;
+      width: 190px;
       text-align: center;
     }
 }
@@ -266,12 +264,6 @@ html, body {
   padding-top: 50px;
 
   input {
-    width: 60vw;
-    display: flex;
-    justify-content: start;
-  }
-
-  #searchbar {
     display: flex;
     justify-content: start;
   }
@@ -312,43 +304,50 @@ html, body {
 
 // Single product page
 
-.is-rounded {
-  border: 5px solid rgb(255, 208, 0);
-  border-radius: 10%;
-  width: 300px;
-}
+.single-product {
 
-figure {
-  display: flex;
-  align-content: flex-start;
-}
+  img {
+    width: 300px;
+    height: 300px;
+  }
 
-.s-p-cart {
-  margin-right: 25px;
-}
-
-.s-p-description {
-  margin-bottom: 10px;
-}
-
-.review-box {
-  border: solid 5px rgb(0, 33, 66);
+  .is-rounded {
+    border: 5px solid rgb(255, 208, 0);
+    border-radius: 10%;
+    width: 300px;
+  }
+  
+  figure {
+    display: flex;
+    align-content: flex-start;
+  }
+  
+  .s-p-cart {
+    margin-right: 25px;
+  }
+  
+  .s-p-description {
+    margin-bottom: 10px;
+  }
+  
+  .review-box {
+    border: solid 5px rgb(0, 33, 66);
+  }
 }
 
 // Cart page
 
 .cart-items {
 
-  h1 {
-    font-size: 35px;
-    text-decoration: underline;
-    text-align: center;
-  }
-
   display: flex;
   justify-content: center;
 
-  padding-top: 100px;
+  padding-top: 50px;
+
+  h1 {
+    font-size: 35px;
+    text-decoration: underline;
+  }
 
   .list {
   display: flex;
@@ -448,11 +447,13 @@ figure {
   }
 }
 
+// Empty cart page
 .empty-cart-page {
   
   display: flex;
   justify-content: center;
   text-align: center;
+  margin-top: 50px;
 
   h5 {
     font-size: 20px;

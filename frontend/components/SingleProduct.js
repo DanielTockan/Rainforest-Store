@@ -86,7 +86,7 @@ const SingleProduct = (props) => {
 
   if (loading) return <h1>LOADING...</h1>
 
-  return <section id="single-product" className="section">
+  return <section id="single-product" className="section single-product">
     <div className="container">
       <div id="product-information" className="columns">
         <div className="centered column is-flex is-justify-content-flex-end">
