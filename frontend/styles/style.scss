@@ -257,14 +257,33 @@ html, body {
 // Homepage - Products
 
 .products-page {
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
   
   padding-top: 50px;
-  margin-left: 100px;
+
+  input {
+    width: 60vw;
+    display: flex;
+    justify-content: start;
+  }
+
+  #searchbar {
+    display: flex;
+    justify-content: start;
+  }
+
+  .section {
+    padding: 10px;
+  }
 
   input {
     margin-bottom: 30px;
     min-width: 310px;
-    margin-left: 15px;
+    // margin-left: 15px;
   }
   
 
@@ -272,7 +291,6 @@ html, body {
     max-height: 200px;
     max-width:  200px;
     margin-top: 10px;
-    margin-left: 55px;
   }
 
   #card-spacing {

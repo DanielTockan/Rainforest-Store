@@ -86,35 +86,34 @@ const Products = (props) => {
       </div>
     </section>
 
-    {filterProductsResults().map((product, index) => {
-      return <div className="products-card" key={index}>
-
-        <section>
-          <div className="col-sm-4">
-            <div className="card" id="card-spacing" >
-              <Link to={`/products/${product.id}`} className="card-image">
-                <img className="card-img-top" id="product-image" src={product.image} alt="Card image cap" />
-              </Link>
-              <div className="card-body">
-                <h6 className="card-title">{product.title}</h6>
-                <p className="card-text">{product.symbol}{product.price.toFixed(2)}</p>
-                <p><Rating
-                  name="hover-feedback"
-                  value={product.rating}
-                  precision={0.5}
-                /></p>
-                <button
-                  value={product.id}
-                  onClick={event => addToCart(event.target.value)}
-                  className="btn btn-danger">
-                  Add to cart
-                </button>
-              </div>
+    <section>
+      {filterProductsResults().map((product, index) => {
+        return <div className="products-card section" key={index}>
+          <div className="card" >
+            <Link to={`/products/${product.id}`} className="card-img-top">
+              <img className="card-img-top" id="product-image" src={product.image} alt="Card image cap" />
+            </Link>
+            <div className="card-body">
+              <h6 className="card-title">{product.title}</h6>
+              <p className="card-text">{product.symbol}{product.price.toFixed(2)}</p>
+              <p><Rating
+                name="hover-feedback"
+                value={product.rating}
+                precision={0.5}
+              /></p>
+              <button
+                value={product.id}
+                onClick={event => addToCart(event.target.value)}
+                className="btn btn-danger">
+                Add to cart
+              </button>
             </div>
           </div>
-        </section>
-      </div>
-    })}
+
+
+        </div>
+      })}
+    </section>
   </div>
 }
 
