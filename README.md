@@ -471,7 +471,7 @@ The goods sold on the website were rendered on the page by mapping the products 
 
 Filter functionality was implemented into the page via the search bar. 
 
-![Home Page](resources/screenshots/rainforest_screenshots/homepage.png)
+![Search bar](resources/screenshots/rainforest_screenshots/searchbar.png)
 
 The "handleSearch" function powered this:
 
@@ -488,7 +488,6 @@ The "handleSearch" function powered this:
   }
 ```
 
-![Search bar](resources/screenshots/rainforest_screenshots/searchbar.png)
 
 Clicking on any of these products leads to the page for the individual product, where the ability to favourite the item and leave reviews is possible.
 
