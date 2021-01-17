@@ -4,6 +4,8 @@ from models.order import OrderModel
 from models.customer import CustomerModel
 from serializers.customer import CustomerSchema
 from serializers.populated_customer import PopulatedCustomerSchema
+from serializers.product import ProductSchema
+from serializers.populated_product import PopulatedProductSchema
 from marshmallow import ValidationError
 from middleware.secure_route import secure_route
 
@@ -11,6 +13,8 @@ router = Blueprint(__name__, 'customers')
 
 customer_schema = CustomerSchema()
 populated_customer = PopulatedCustomerSchema()
+product_schema = ProductSchema()
+populated_product = PopulatedProductSchema()
 
 @router.route('/customers', methods=['GET'])
 def get_customers():
@@ -51,6 +55,36 @@ def update_customer(id):
   customer.save()
 
   return customer_schema.jsonify(customer), 201
+
+# @router.route('/customers/<int:id>/products', methods=['POST'])
+# @secure_route
+# def add_favourite(id):
+#   existing_customer = CustomerModel.query.get(id)
+#   single_product = ProductModel.query.get(id)
+#   single_product_data = product_schema.dump(single_product)
+
+#   current_favourite = populated_customer.load({
+#     "products" :[single_product_data]},
+#     instance=existing_customer,
+#     partial=True
+#   )  
+
+#   if existing_customer.id != g.current_user.id:
+#     return { 'message': 'You cannot update a profile that is not yours'}, 404
+
+#   try:
+#     new_favourite = populated_customer.load(
+#       request.get_json(),
+#       instance=existing_customer,
+#       partial=True
+#     )
+#   except ValidationError as e:
+#     return { 'errors': e.messages, 'message': 'Something went wrong.' }
+
+#   current_favourite.append(new_favourite)
+#   current_favourite.save()
+
+#   return customer_schema.jsonify(current_favourite), 201
 
 @router.route('/register', methods=['POST'])
 def register():
