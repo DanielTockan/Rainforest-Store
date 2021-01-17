@@ -39,6 +39,7 @@ const Products = (props) => {
       .then(resp => {
         updateCart(resp.data)
       })
+    location.reload()
   }
 
   function filterCategories() {
@@ -77,7 +78,7 @@ const Products = (props) => {
 
     <section id="searchbar">
       <div>
-        <input type="text" placeholder="Search products..." 
+        <input type="text" placeholder="Search products..."
           name="searchbar"
           value={search.searchbar}
           onChange={handleSearch}

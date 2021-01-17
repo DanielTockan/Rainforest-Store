@@ -46,7 +46,7 @@ const MyCart = (props) => {
           <h5 className="card-title">Your basket is empty</h5>
           <p className="card-text">It doesn't appear like you've bought anything. Let's change that!</p>
           <Link to={`/`}>
-            <a href="#" className="btn btn-primary">Return to the store</a>
+            <button href="#" className="btn btn-primary">Return to the store</button>
           </Link>
         </div>
       </div>

@@ -102,7 +102,7 @@ def login():
     return { 'message': 'No user found with this email' }, 404
 
   if not customer.validate_password(customer_data['password']):
-    return { 'message': 'Unauthorised' }, 402
+    return { 'message': 'Incorrect password' }, 402
 
   token = customer.generate_token()
 

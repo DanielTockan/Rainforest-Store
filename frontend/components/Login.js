@@ -9,16 +9,16 @@ const Login = (props) => {
     password: ''
   })
 
-  const [errors, setErrors] = useState({
-    message: ''
-  })
+  const [errors, setErrors] = useState('')
 
   function handleChange(event) {
+
     const data = {
       ...formData,
       [event.target.name]: event.target.value
     }
     setFormData(data)
+    setErrors('')
   }
 
   function handleSubmit(event) {
@@ -26,27 +26,26 @@ const Login = (props) => {
 
     axios.post('/api/login', formData)
       .then(resp => {
-        if (resp.status !== 200) {
-          setErrors(resp.data)
+        if (resp.data.message === 'No user found with this email' || resp.data.message === 'Incorrect password') {
+          window.alert(resp.data.message)
         } else {
-          console.log(resp)
           localStorage.setItem('token', resp.data.token)
           props.history.push('/')
         }
       })
   }
-  console.log(props)
 
 
-  return <div className="background-image-login">
+  return <div className="login-page">
 
     <div className="container container-custom">
 
-      <h1 className="text-dark reg" >Welcome back!</h1>
-      <h1 className="text-dark reg" >Please provide your login details</h1>
+
       <form
         onSubmit={handleSubmit}
       >
+        <h1 className=" reg" >Welcome back!</h1>
+        <h3 className=" reg" >Please provide your login details</h3>
         <div className="form-group">
           <input
             type="email"
@@ -67,6 +66,7 @@ const Login = (props) => {
             value={formData.password}
             name="password"
             required />
+          {errors && <p style={{ color: 'red' }}>{errors}</p>}
         </div>
 
         {errors.message && <p id="error" style={{ color: 'black' }}>
@@ -74,7 +74,7 @@ const Login = (props) => {
         </p>}
 
         <button
-          className="btn btn-danger">
+          className="btn btn-info">
           Login
         </button>
 

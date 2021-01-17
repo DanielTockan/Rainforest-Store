@@ -47,12 +47,13 @@ const Register = (props) => {
   }
   console.log(formData)
 
-  return <div className="background-image-register">
+  return <div className="register-page">
     <div className="container container-custom">
 
-      <h1 className="text-warning reg" >Join Rainforest for your shopping this Christmas</h1>
       <form
         onSubmit={handleSubmit}>
+        <h1 className="" >Join Rainforest for your online shopping</h1>
+        <h3 className="text-warning">Enjoy a selection of thousands of products, as well as 10% off your first purchase!</h3>
         <div className="form-group">
           <input
             type="text"
