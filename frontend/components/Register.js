@@ -94,7 +94,7 @@ const Register = (props) => {
           </p>} */}
 
         </div>
-        <button className="btn btn-success wide">Submit</button>
+        <button className="btn btn-success wide">Join us!</button>
       </form>
 
     </div>
