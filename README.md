@@ -574,4 +574,5 @@ My Saved Items:
 
 - Introduction of a chatbot using websockets to answer user queries
 - Creating a specific add_to_favourites function within the customer controller for better fucntionality
-- Ficing of minor bugs across the app
+- Make every component across the app mobile responsive
+- Fixing of minor bugs across the app
