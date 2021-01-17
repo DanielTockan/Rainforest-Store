@@ -56,8 +56,6 @@ const MyDetails = (props) => {
       })
   }, [])
 
-  console.log(currentData)
-
   function handleUpdate(event) {
 
     event.preventDefault()
@@ -69,15 +67,10 @@ const MyDetails = (props) => {
 
 
       .then(res => {
-        console.log(res.data)
         props.history.push(`/myaccount/${userId}`)
       })
 
   }
-
-  console.log(formData)
-  console.log(token)
-
 
   return <div className="register-page">
     <div className="container container-custom">

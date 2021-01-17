@@ -37,7 +37,6 @@ const Register = (props) => {
 
     axios.post('api/register', formData)
       .then(resp => {
-        console.log(resp.data)
         if (resp.data.errors) {
           setErrors(resp.data.errors)
         } else {
@@ -45,7 +44,6 @@ const Register = (props) => {
         }
       })
   }
-  console.log(formData)
 
   return <div className="register-page">
     <div className="container container-custom">

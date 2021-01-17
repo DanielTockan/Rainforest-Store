@@ -23,7 +23,6 @@ const MyCart = (props) => {
   }, [])
 
   function handleRemoveItem(id) {
-    console.log(id)
     axios.delete(`/api/products/${id}/delete-from-cart`)
       .then
     location.reload()

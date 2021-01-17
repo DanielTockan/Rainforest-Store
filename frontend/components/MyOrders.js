@@ -19,11 +19,6 @@ const MyOrders = () => {
       })
   }, [])
 
-  console.log(token)
-
-  console.log(typeof (orderData))
-  console.log(orderData)
-
   return <div className="my-orders">
     <section className="list">
       <div className="list-container">

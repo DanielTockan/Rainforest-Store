@@ -18,8 +18,6 @@ const Navbar = (props) => {
     props.history.push('/products')
   }
 
-  console.log(finalId)
-
   return <div className="navbar-component">
     <nav className="navbar navbar-expand-md navbar-dark nav-background fixed-top">
 

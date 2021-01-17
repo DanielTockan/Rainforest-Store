@@ -21,11 +21,6 @@ const MySavedItems = () => {
       })
   }, [])
 
-  console.log(token)
-
-  console.log(typeof (productData))
-  console.log(productData)
-
   return <div className="saved-items">
     <div className="list-container">
       <h1 className="text-warning">My favourites</h1>
