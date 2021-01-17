@@ -28,6 +28,8 @@ Upon completion, the project was deployed via Heroku.
 6. [Obstacles Faced and Lessons](#Obstacles-Faced-and-Lessons)
 7. [Future Features](#Future-Features)
 
+![Logo](resources/screenshots/rainforest_screenshots/storelogo.png)
+
 ## The Brief
 
 - Use a Python Flask API within the Flask Rest Framework to serve my data from a PostgreSQL database
@@ -91,9 +93,15 @@ Quick DBD was used to create the entity relationship diagrams, graphically descr
 
 This is the final design that was settled on, following several iterations.
 
+Trello:
+
+![Trello board](resources/screenshots/rainforest_screenshots/trello.png)
+
 ### The API:
 
 The data seeded into the product model in the backend was fetched from [Rainforest API.](https://rainforestapi.com/) This API was chosen due to its rich catalogue with thousands of products scraped from Amazon. The responses contained datapoints such as price, description etc., necessary for my vision of the app.
+
+![API response](resources/screenshots/rainforest_screenshots/apiresults.png)
 
 In the seed file, the "get_product" function was created to format the data in a way that was compatible with the product model: 
 
@@ -121,7 +129,7 @@ def get_product(name, url):
 
       product.save()
 ```
-The generator below, looped through each of the name and url arguements in the "bestsellers_list". The url was then embedded into the get request, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of prodcuts per cateogry.
+The generator below, looped through each of the name and url arguements in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of prodcuts per cateogry.
 
 ```py
   bestsellers_list = [
@@ -185,9 +193,9 @@ The complexity kicked in when it came to desiging the relationships. The below w
 - Customers & Products <br> - A customer is able to save more than one item to their favourites/wish-list <br> - Popular items can be added to the wish-lists/favourited by many customers
 
 **One to Many (1-M)** 
-- Products to Reviews - A product in the store can have many customer reviews.
-- Customers to Orders - A customer is able to return and place another order.
-- Customers to Reviews - Assuming a customer buys more than one product, they are able to leave reviews for each of those prodcuts.
+- Products to Reviews - A product in the store can have many customer reviews
+- Customers to Orders - A customer is able to return and place another order
+- Customers to Reviews - Assuming a customer buys more than one product, they are able to leave reviews for each of those prodcuts
 
 From this basis, the models illustrated in the entity relationship diagram above were built.
 
@@ -205,7 +213,7 @@ orders_products_join = db.Table('orders_products',
 
 It's purpose was to create a standalone table that stored a record for each of the combinations between the counterpart tables as a row. A lot of prior code and rationale was required for this to function.
 
-Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to prevent recursion problems from happening.
+Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to prevent recursion errors from occuring.
 
 ```py
 from app import db
@@ -231,13 +239,13 @@ class OrderModel(db.Model, BaseModel):
 
 The order model was chosen as it possessed only one M-M relationship, whereas the product model had two. This choice made the code simpler and easier to read, however it would have worked either way. For this same reason, the imports were carried out in the customer model for the customer-product M-M relationship.
 
-Within the same model, reference to the 1-M relationship between customers and orders can be found. This was enabled by adding a the customer ID number as a foreign key to the table and coding the relaitonship just beneath.
+Within the same model, reference to the 1-M relationship between customers and orders can be found. This was enabled by adding the customer ID number as a foreign key to the table and coding the relaitonship just beneath.
 
 #### Serializers
 
 Given that our Flask back-end was written in Python, as it stood, the models were not able to interact with our API (written in JSON) and React front-end. The serializers facilitated the communication between the disparate languages, acting as a form of translator. This was achieved using Marshmallow.
 
-Each of the models (including the base) had a corresponsing schema to which it was imported.
+Each of the models (including the base mixin) had a corresponsing schema to which it was imported.
 This was no exception for the "Product Schema" below:
 
 ```py
@@ -299,17 +307,17 @@ Both the product schema and populated product schema were imported to the produc
 
 This was demonstrated with the "get_products" and the "get_single_product" functions:
 
-The former function was built with the purpose of fetching the data for all products that would be rendered on a homepage style component.
-
 ```py
 @router.route('/products', methods=['GET'])
 def get_products():
   products = ProductModel.query.all()
   return product_schema.jsonify(products, many=True), 200
 ```
- Whereas the latter was built with the intent of rendering a single product on its individual page. 
+The former function was built with the purpose of fetching the data for all products that would be rendered on a homepage style component.
 
 ![Get all products](./resources/screenshots/get_products.png)
+
+Whereas the latter was built with the intent of rendering a single product on its individual page. 
 
 ```py
 @router.route('/products/<int:id>', methods=['GET'])
@@ -414,7 +422,7 @@ class OrderModel(db.Model, BaseModel):
   # products = db.relationship('ProductModel', secondary=orders_products_join, backref='orders')
   ```
 
-  Logic to calculate the sum of prices of all products within the order was present so customers are able to track their total spend.
+  Logic to calculate the sum of prices of all products within the order was present so customers are able to track their total spend and the total amount of historical orders could be stored.
 
 
 ### Front-end:
@@ -428,50 +436,69 @@ The interface and flow of the app was designed to mimic the functionality of a s
 
 #### Home Page
 
-![Home Page](./resources/screenshots/homepage.png)
+![Home Page](resources/screenshots/rainforest_screenshots/homepage.png)
 
 The goods sold on the website were rendered on the page by mapping the products seeded from the database into cards on a page, like below:
 
 ```js
 {filterProductsResults().map((product, index) => {
-            return <div key={index} className="column is-one-third-desktop is-half-tablet is-half-mobile">
-              <div className="card">
-                <Link to={`/products/${product.id}`} className="card-image">
-                  <figure className="image is-4by3">
-                    <img src={product.image} alt={product.title} />
-                  </figure>
-                </Link>
-                <div className="card-content">
-                  <div className="media">
-                    <div className="media-content has-text-centered">
-                      <p>{product.title}</p>
-                      <p className="price">{product.symbol}{product.price}</p>
-                      <p><Rating
-                        name="hover-feedback"
-                        value={product.rating}
-                        precision={0.5}
-                      /></p>
-                      <button value={product.id}
-                        onClick={event => addToCart(event.target.value)}
-                        className="button is-warning">Add to Cart
-                       </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        return <div className="products-card section" key={index}>
+          <div className="card" >
+            <Link to={`/products/${product.id}`} className="card-img-top">
+              <img className="card-img-top" id="product-image" src={product.image} alt="Card image cap" />
+            </Link>
+            <div className="card-body">
+              <h6 className="card-title">{product.title}</h6>
+              <p className="card-text">{product.symbol}{product.price.toFixed(2)}</p>
+              <p><Rating
+                name="hover-feedback"
+                value={product.rating}
+                precision={0.5}
+              /></p>
+              <button
+                value={product.id}
+                onClick={event => addToCart(event.target.value)}
+                className="btn btn-danger">
+                Add to cart
+              </button>
             </div>
-          })}
+          </div>
+
+
+        </div>
+      })}
 ```
+
+Filter functionality was implemented into the page via the search bar. 
+
+![Home Page](resources/screenshots/rainforest_screenshots/homepage.png)
+
+The "handleSearch" function powered this:
+
+```js
+  function handleSearch(event) {
+    const name = event.target.name
+    const value = event.target.value
+
+    let data = {
+      ...search,
+      [name]: value
+    }
+    updateSearch(data)
+  }
+```
+
+![Search bar](resources/screenshots/rainforest_screenshots/searchbar.png)
 
 Clicking on any of these products leads to the page for the individual product, where the ability to favourite the item and leave reviews is possible.
 
-![Home Page](./resources/screenshots/product_page.png)
+![Single product page](resources/screenshots/rainforest_screenshots/singleproduct.png)
 
 #### My Cart
 
-Once items are added to the cart, they land here.
+Once items are added to the cart, they appeared here:
 
-![Cart](./resources/screenshots/cart.png)
+![Cart](resources/screenshots/rainforest_screenshots/fullcart.png)
 
 Customers are able to keep track of the items they had added and keep a running total of the cost.
 
@@ -492,11 +519,37 @@ CRUD funcitonality was implemented into the page with the options to remove item
   }
 ```
 
+Conditional logic was used to render a different display if no prodcuts had been added to the cart:
+
+![Empty cart](resources/screenshots/rainforest_screenshots/emptycart.png)
+
+```js
+  if ((!cart[0]) || (cart[0].total_amount.toFixed(2) < 1)) {
+    return <div className="section empty-cart-page">
+      <div className="card">
+        <img className="card-img-top" src="https://imgur.com/TvRgXnw.png" alt="Card image cap" />
+        <div className="card-body">
+          <h5 className="card-title">Your basket is empty</h5>
+          <p className="card-text">It doesn't appear like you've bought anything. Let's change that!</p>
+          <Link to={`/`}>
+            <button href="#" className="btn btn-primary">Return to the store</button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  }
+```
+
+
 #### My Account Page
 
 ![Account](./resources/screenshots/account_page.png)
 
-The My Account page acted as the hub for users to view their order history, their favourites and update their credentials. Each have their own individual pages that can be accessed by clicking on the cards.
+The My Account page acted as the hub for users to view their order history, their bookmarked products and update their credentials. Each have their own individual pages that can be accessed by clicking on the cards.
+
+My Saved Items:
+
+![Saved items](resources/screenshots/rainforest_screenshots/favourites.png)
 
 <br>
 
@@ -505,7 +558,7 @@ The My Account page acted as the hub for users to view their order history, thei
 - Learned and gained confidence with a new programming language (Python and SQL) in a condensed time-frame
 - Achieved all stretch goals involving the backend
 - Error free experience using git, ie losing data or mismanaged conflicts
-- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards writing in Python and back-end devlopment(I still do enjoy front-end)
+- Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards writing in Python (I still do enjoy JavaScript)
 
 
 <br>
@@ -513,14 +566,13 @@ The My Account page acted as the hub for users to view their order history, thei
 ## Obstacles Faced and Lessons
 
 - We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end
-- We were unable to have as many prodcuts as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all prodcuts/data at once
-- Too little time left towards the end of the project to work on and build a more visually impressive front-end. In future, wireframing will be conducted at an earlier stage (ours was done after the back-end build)
-- Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues via written communication effectively - in slack when Zoom was not available
+- We were unable to have as many products as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all prodcuts/data at once
+- Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues effectively via written communications - in slack when Zoom was not available
 
 <br>
 
 ## Future Features
 
-- Overall polishing of the design of the app across all components
 - Introduction of a chatbot using websockets to answer user queries
 - Creating a specific add_to_favourites function within the customer controller for better fucntionality
+- Ficing of minor bugs across the app
