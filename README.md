@@ -4,11 +4,11 @@
 
 ## Project Overview
 
-The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user friendly interface. It was built using Flask, Python, a postgreSQL relational databse for the back-end,  and a React front-end. 
+The Rainforest E-Store is a full-stack application where customers can complete their online shopping, through a clean and user-friendly interface. It was built using Flask, Python, a PostgreSQL relational database for the back-end, and a React front-end. 
 
 The concept was inspired by the growing trend of retail businesses improving their online presence during this time. The project presented a considerable increase in complexity compared to the projects covered within my classwork.
 
-This paired project was my final and most challenging with GA, but also the most enjoyble. Despite only having being taught Python and SQL the week prior, I got very comfortable with the languages and creating intricate table relationships.
+This paired project was my final and most challenging with GA, but also the most enjoyable. Despite only having been taught Python and SQL the week prior, I got very comfortable with the languages and creating intricate table relationships.
 
 Upon completion, the project was deployed via Heroku.
 
@@ -85,7 +85,7 @@ The key considerations were:
 - What the MVP and stretch goals for the project were <!-- (via User Stories) -->
 - What pages were needed on the frontend, and how they would interact with the API
 
-The model-centric planning process came at the detriment of other apsects of the app (which will be expanded on througout the document) but overall, set a solid foundation for us to proceed.
+The model-centric planning process came at the detriment of other aspects of the app (which will be expanded on throughout the document) but overall, set a solid foundation for us to proceed.
 
 Quick DBD was used to create the entity relationship diagrams, graphically describing the relationships between the models:
 
@@ -129,7 +129,7 @@ def get_product(name, url):
 
       product.save()
 ```
-The generator below, looped through each of the name and url arguments in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of products per cateogry.
+The generator below, looped through each of the name and url arguments in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There was a total of 36 categories within the bestsellers list and dozens of products per category.
 
 ```py
   bestsellers_list = [
@@ -157,7 +157,7 @@ Models were created for:
 - Products
 - Reviews
 
-The build of the relevent tables was relatively simple. This was verified, using TablePlus to ensure the expected table columns were produced.
+The build of the relevant tables was relatively simple. This was verified, using TablePlus to ensure the expected table columns were produced.
 
 ```py
 class CustomerModel(db.Model, BaseModel):
@@ -171,7 +171,7 @@ class CustomerModel(db.Model, BaseModel):
 
 The models were first created in Flask, before being converted to PostgreSQL using SQLAlchemy.
 
-Each column witin the table  corresponds to a line of code within the "CustomerModel" class. 
+Each column within the table corresponds to a line of code within the "CustomerModel" class. 
 
 ![TablePlus](./resources/screenshots/tableplus.png)
 
@@ -185,7 +185,7 @@ class BaseModel:
   updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 ```
 
-The complexity kicked in when it came to desiging the relationships. The below were designed for the stated reasons;
+The complexity kicked in when it came to designing the relationships. The below were designed for the stated reasons;
 
 **Many to Many (M-M)** 
 - Orders & Products <br> - When a customer checks out (places an order), they are able to buy many items (products) at a time, whether they be a variety of different products or a bulk buy of the same product <br> - Provided there is enough stock, products are able to be purchased as part of many different orders <br>
@@ -213,7 +213,7 @@ orders_products_join = db.Table('orders_products',
 
 It's purpose was to create a stand-alone table that stored a record for each of the combinations between the counterpart tables as a row. A lot of prior code and rationale was required for this to function.
 
-Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to prevent recursion errors from occuring.
+Within the order model, the product model and the order-product join were imported. It was vital that these imports were carried out in only one of the counterparts, and not both to prevent recursion errors from occurring.
 
 ```py
 from app import db
@@ -245,7 +245,7 @@ Within the same model, reference to the 1-M relationship between customers and o
 
 Given that our Flask back-end was written in Python, as it stood, the models were not able to interact with our API (written in JSON) and React front-end. The serializers facilitated the communication between the disparate languages, acting as a form of translator. This was achieved using Marshmallow.
 
-Each of the models (including the base mixin) had a corresponsing schema to which it was imported.
+Each of the models (including the base mixin) had a corresponding schema to which it was imported.
 This was no exception for the "Product Schema" below:
 
 ```py
@@ -261,7 +261,7 @@ class ProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 ```
 
-An important aspect of Marshamllow was that it permits nested fields to be added to the schema. This feature allowed the table relationships defined as part of the models to be represented in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
+An important aspect of Marshmallow was that it permits nested fields to be added to the schema. This feature allowed the table relationships defined as part of the models to be represented in the JSON responses. This was an essential for the upcoming front-end build (e.g. retrieving an order history). 
 
 As a result, I was able to decide if, when, and where in the app certain relationships fields would be visible. This was done by duplicating the necessary schemas and adding nested fields as desired. 
 
@@ -282,17 +282,17 @@ class PopulatedProductSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   reviews = fields.Nested('ReviewSchema', many=True)
 ```
 
-The nested reviews field was not present in the Product Schema, but makes an appearance here. The added benefit of this will be explained within the controllers section.
+The nested reviews field was not present in the Product Schema but makes an appearance here. The added benefit of this will be explained within the controller's section.
 
 
 #### Controllers
 
-Flasks Blueprint pattern was used to create the routes for the project, dictating the logic that retireved data from the requests and returned JSON objects to the front-end server. These routes are located within three controllers for the app.
+Flasks Blueprint pattern was used to create the routes for the project, dictating the logic that retrieved data from the requests and returned JSON objects to the front-end server. These routes are located within three controllers for the app.
 - Customer controller
 - Order controller
 - Product controller
 
-It is within these routes that the schemas were instantiated, and the functioanilty of the backend comes to action.
+It is within these routes that the schemas were instantiated, and the functionality of the backend comes to action.
 
 Taking a look at the product controller:
 
@@ -303,7 +303,7 @@ product_schema = ProductSchema()
 populated_product = PopulatedProductSchema()
 ```
 
-Both the product schema and populated product schema were imported to the product controller and available for instantiaition. This provided a great level of control of the JSON object datapoints that could be returned from each route. Decisions on the correct schema to use could be made based on the specific datapoints necessary for that part of the user journey.
+Both the product schema and populated product schema were imported to the product controller and available for instantiation. This provided a great level of control of the JSON object datapoints that could be returned from each route. Decisions on the correct schema to use could be made based on the specific datapoints necessary for that part of the user journey.
 
 This was demonstrated with the "get_products" and the "get_single_product" functions:
 
@@ -335,7 +335,7 @@ Given this context, it was deemed unnecessary for the populated products schema 
 
 #### Adding an item to the cart:
 
-Adding items to the cart was the trickiest fucntion to implement across the app due to the complex logic involved.
+Adding items to the cart was the trickiest function to implement across the app due to the complex logic involved.
 
 
 ```py
@@ -422,7 +422,7 @@ class OrderModel(db.Model, BaseModel):
   # products = db.relationship('ProductModel', secondary=orders_products_join, backref='orders')
   ```
 
-  Logic to calculate the sum of prices of all products within the order was present so customers are able to track their total spend and the total amount of historical orders could be stored.
+  Logic to calculate the sum of prices of all products within the order was present so customers are able to track their total spend, and the total amount of historical orders could be stored.
 
 
 ### Front-end:
@@ -501,7 +501,7 @@ Once items are added to the cart, they appeared here:
 
 Customers are able to keep track of the items they had added and keep a running total of the cost.
 
-CRUD funcitonality was implemented into the page with the options to remove items and finalize the order granted. Upon finalising an order, a PUT request is made updating the current users order history.
+CRUD functionality was implemented into the page with the options to remove items and finalize the order granted. Upon finalising an order, a PUT request is made updating the current users order history.
 
 ```js
   function handleFinalize() {
@@ -556,7 +556,7 @@ My Saved Items:
 
 - Learned and gained confidence with a new programming language (Python and SQL) in a condensed time-frame
 - Achieved all stretch goals involving the backend
-- Error free experience using git, ie losing data or mismanaged conflicts
+- Error free experience using git, i.e., losing data or mismanaged conflicts
 - Gained a stronger sense of my strengths and weaknesses as an Engineer, and my preference towards writing in Python (I still do enjoy JavaScript)
 
 
@@ -564,15 +564,15 @@ My Saved Items:
 
 ## Obstacles Faced and Lessons
 
-- We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end
-- We were unable to have as many products as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all products/data at once
-- Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues effectively via written communications - in slack when Zoom was not available
+- We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full product list at the end
+- We were unable to have as many products as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the future, we will design with pagination in mind to avoid fetching all products/data at once
+- Poor internet connectivity made communication difficult at critical moments during the project. I quickly learned to adapt and communicate technical/debugging issues effectively via written communications - in slack when Zoom was not available
 
 <br>
 
 ## Future Features
 
-- Introduction of a chatbot using websockets to answer user queries
-- Creating a specific add_to_favourites function within the customer controller for better fucntionality
-- The app was desinged solely with use on a laptop/ desktop in mind. I intend on making it fully responsive on smaller, mobile devices
+- Introduction of a chatbot using WebSockets to answer user queries
+- Creating a specific add_to_favourites function within the customer controller for better functionality
+- The app was designed solely with use on a laptop/ desktop in mind. I intend on making it fully responsive on smaller, mobile devices
 - Fixing of minor bugs across the app
