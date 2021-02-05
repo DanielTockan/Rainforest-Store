@@ -129,7 +129,7 @@ def get_product(name, url):
 
       product.save()
 ```
-The generator below, looped through each of the name and url arguments in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of prodcuts per cateogry.
+The generator below, looped through each of the name and url arguments in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of products per cateogry.
 
 ```py
   bestsellers_list = [
@@ -195,7 +195,7 @@ The complexity kicked in when it came to desiging the relationships. The below w
 **One to Many (1-M)** 
 - Products to Reviews - A product in the store can have many customer reviews
 - Customers to Orders - A customer is able to return and place another order
-- Customers to Reviews - Assuming a customer buys more than one product, they are able to leave reviews for each of those prodcuts
+- Customers to Reviews - Assuming a customer buys more than one product, they are able to leave reviews for each of those products
 
 From this basis, the models illustrated in the entity relationship diagram above were built.
 
@@ -518,7 +518,7 @@ CRUD funcitonality was implemented into the page with the options to remove item
   }
 ```
 
-Conditional logic was used to render a different display if no prodcuts had been added to the cart:
+Conditional logic was used to render a different display if no products had been added to the cart:
 
 ![Empty cart](resources/screenshots/rainforest_screenshots/emptycart.png)
 
@@ -565,7 +565,7 @@ My Saved Items:
 ## Obstacles Faced and Lessons
 
 - We exhausted our API call limit twice, meaning a new email address had to be set up to continue with work (for free). This was due largely to us seeding too many products from the API during development. In future we will seed the bare minimum to limit our calls and add the full prodcut list at the end
-- We were unable to have as many products as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all prodcuts/data at once
+- We were unable to have as many products as desired on the site due to the detrimental effect it has on the speed and performance of the server. In the furture, we will design with pagination in mind to avoid fetching all products/data at once
 - Poor internet connectivity made communication difficult at critical moments during the proejct. I quickly learned to adapt and communicate technical/debugging issues effectively via written communications - in slack when Zoom was not available
 
 <br>
