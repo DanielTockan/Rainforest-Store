@@ -129,7 +129,7 @@ def get_product(name, url):
 
       product.save()
 ```
-The generator below, looped through each of the name and url arguements in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of prodcuts per cateogry.
+The generator below, looped through each of the name and url arguments in the "bestsellers_list". The url was then embedded into the get request using a string literal, and the list of products were fetched by category. There were a total of 36 categories within the bestsellers list and dozens of prodcuts per cateogry.
 
 ```py
   bestsellers_list = [
@@ -175,7 +175,7 @@ Each column witin the table  corresponds to a line of code within the "CustomerM
 
 ![TablePlus](./resources/screenshots/tableplus.png)
 
-The "id", "created_at" and "updated_at" columns originate from the BaseModel, which was passed in as an arguement to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying the code.
+The "id", "created_at" and "updated_at" columns originate from the BaseModel, which was passed in as an argument to the class, prior to it being extended by the custom fields that were added. These *mixin's* were added to all of the models used throughout the app, simplifying the code.
 
 ```py
 class BaseModel: 
