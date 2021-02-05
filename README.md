@@ -188,7 +188,7 @@ class BaseModel:
 The complexity kicked in when it came to desiging the relationships. The below were designed for the stated reasons;
 
 **Many to Many (M-M)** 
-- Order & Products <br> - When a customer checks out (places an order), they are able to buy many items (products) at a time, whether they be a variety of different products or a bulk buy of the same product <br> - Provided there is enough stock, products are able to be purchased as part of many different orders <br>
+- Orders & Products <br> - When a customer checks out (places an order), they are able to buy many items (products) at a time, whether they be a variety of different products or a bulk buy of the same product <br> - Provided there is enough stock, products are able to be purchased as part of many different orders <br>
 
 - Customers & Products <br> - A customer is able to save more than one item to their favourites/wish-list <br> - Popular items can be added to the wish-lists/favourited by many customers
 
