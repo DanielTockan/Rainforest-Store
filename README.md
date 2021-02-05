@@ -211,7 +211,7 @@ orders_products_join = db.Table('orders_products',
   db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True)
 ```
 
-It's purpose was to create a standalone table that stored a record for each of the combinations between the counterpart tables as a row. A lot of prior code and rationale was required for this to function.
+It's purpose was to create a stand-alone table that stored a record for each of the combinations between the counterpart tables as a row. A lot of prior code and rationale was required for this to function.
 
 Within the order model, the product model and the order-product join were imported. It was vital that these imports was carried out in only one of the counterparts, and not both to prevent recursion errors from occuring.
 
