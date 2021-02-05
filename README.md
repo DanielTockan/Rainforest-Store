@@ -169,7 +169,7 @@ class CustomerModel(db.Model, BaseModel):
   password_hash = db.Column(db.String(200), nullable=False)
 ```
 
-The models were first created in Flask, before being converted to PostgreSQL using SQLAlechemy.
+The models were first created in Flask, before being converted to PostgreSQL using SQLAlchemy.
 
 Each column witin the table  corresponds to a line of code within the "CustomerModel" class. 
 
