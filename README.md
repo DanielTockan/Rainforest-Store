@@ -239,7 +239,7 @@ class OrderModel(db.Model, BaseModel):
 
 The order model was chosen as it possessed only one M-M relationship, whereas the product model had two. This choice made the code simpler and easier to read, however it would have worked either way. For this same reason, the imports were carried out in the customer model for the customer-product M-M relationship.
 
-Within the same model, reference to the 1-M relationship between customers and orders can be found. This was enabled by adding the customer ID number as a foreign key to the table and coding the relaitonship just beneath.
+Within the same model, reference to the 1-M relationship between customers and orders can be found. This was enabled by adding the customer ID number as a foreign key to the table and coding the relationship just beneath.
 
 #### Serializers
 
