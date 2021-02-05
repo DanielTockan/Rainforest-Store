@@ -12,7 +12,7 @@ This paired project was my final and most challenging with GA, but also the most
 
 Upon completion, the project was deployed via Heroku.
 
-### Have a browse at the Rainsforest store [here.](https://rainforeststore.herokuapp.com/)
+### Have a browse at the Rainforest store [here.](https://rainforeststore.herokuapp.com/)
 
 ### Table of Contents
 
